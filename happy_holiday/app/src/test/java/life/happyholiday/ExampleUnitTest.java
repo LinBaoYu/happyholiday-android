@@ -1,4 +1,4 @@
-package life.happyholliday;
+package life.happyholiday;
 
 import org.junit.Test;
 

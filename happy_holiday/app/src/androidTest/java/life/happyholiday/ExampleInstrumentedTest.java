@@ -1,4 +1,4 @@
-package life.happyholliday;
+package life.happyholiday;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
