@@ -3,4 +3,10 @@
 
     <!-- Login -->
     <string name="login">Login</string>
+
+    <!-- Home -->
+    <string name="menu_map">Map</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_profile">Profile</string>
 </resources>
