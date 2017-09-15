@@ -4,8 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import life.happyholiday.R;
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override

@@ -1,0 +1,95 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="life.happyholiday.fragments.HomeProfileFragment"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layout_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/avatar_bar_height"
+        android:background="@color/colorPrimary"
+        >
+
+        <TextView
+            android:id="@+id/text_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/avatar_bg_round_white"
+            android:gravity="center"
+            android:text="BY"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_avatar"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_avatar"
+        android:background="@android:color/white"
+        android:drawablePadding="@dimen/margin_small"
+        android:drawableStart="@drawable/ic_face_black_24dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/margin_small"
+        android:text="Baoyu Lin"
+        android:textSize="@dimen/font_normal"
+        />
+
+    <TextView
+        android:id="@+id/text_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_name"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/white"
+        android:drawablePadding="@dimen/margin_small"
+        android:drawableStart="@drawable/ic_phone_black_24dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/margin_small"
+        android:text="8765 5321"
+        android:textSize="@dimen/font_normal"
+        />
+
+    <TextView
+        android:id="@+id/text_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_phone"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/white"
+        android:drawablePadding="@dimen/margin_small"
+        android:drawableStart="@drawable/ic_email_black_24dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/margin_small"
+        android:text="baoyu@happyholiday.life"
+        android:textSize="@dimen/font_normal"
+        />
+
+    <TextView
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_small"
+        android:alpha="0.57"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/font_normal"
+        />
+</RelativeLayout>
