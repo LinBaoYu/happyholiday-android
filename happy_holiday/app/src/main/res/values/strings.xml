@@ -15,4 +15,7 @@
 
     <!-- Util -->
     <string name="back">Back</string>
+
+    <!-- Constant -->
+    <string name="google_map_api_key">AIzaSyAzOQxZx0OMGiJgIjaKIkMWl7HGGvpJUB0</string>
 </resources>
