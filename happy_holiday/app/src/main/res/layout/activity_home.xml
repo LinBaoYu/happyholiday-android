@@ -5,20 +5,21 @@
     android:id="@+id/activity_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/windowBackground"
     tools:context="life.happyholiday.activities.HomeActivity"
-    android:background="#F5F5F5F5"
     >
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar"
+        />
 
     <RelativeLayout
         android:id="@+id/layout_home_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/bottom_navigation"
+        android:layout_below="@+id/toolbar"
         />
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
