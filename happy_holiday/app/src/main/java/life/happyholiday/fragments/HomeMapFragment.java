@@ -1,20 +1,16 @@
 package life.happyholiday.fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,7 +29,8 @@ import life.happyholiday.utils.PermissionHelper;
  * create an instance of this fragment.
  */
 public class HomeMapFragment extends Fragment {
-    public static final int MY_LOCATION_REQUEST_CODE = 999;
+    // TODO
+    // 1. save camera position, last location
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -80,16 +77,40 @@ public class HomeMapFragment extends Fragment {
                 checkPermissionAndShowMyLocation();
 
                 // For dropping a marker at a point on the Map
-                LatLng ccs = new LatLng(103.760958, 1.311206);
-                googleMap.addMarker(new MarkerOptions().position(ccs).title("CCS").snippet("Cut Cook Serve"));
+                LatLng ccs = new LatLng(1.311206, 103.760958);
+                googleMap.addMarker(new MarkerOptions().position(ccs).title("CCS").snippet("Cut Cook Serve")).showInfoWindow();
 
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(ccs).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(ccs).zoom(11).build();
+                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 
     private void checkPermissionAndShowMyLocation() {
@@ -108,7 +129,7 @@ public class HomeMapFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {
+        if (requestCode == PermissionHelper.MY_PERMISSIONS_REQUEST_LOCATION) {
             if (permissions.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 PermissionHelper.handlePermissionResponse(getContext(), permissions, grantResults, new PermissionHelper.PermissionResponseAction() {
                     @Override
