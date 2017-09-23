@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">HappyHoliday</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+
+    <!-- Home -->
+    <string name="menu_map">Map</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_profile">Profile</string>
+
+    <!-- Profile -->
+    <string name="logout">Logout</string>
+
+    <!-- Util -->
+    <string name="back">Back</string>
+</resources>
