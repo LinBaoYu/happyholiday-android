@@ -7,6 +7,10 @@
     <dimen name="toolbar_height">48dp</dimen>
     <dimen name="button_height">36dp</dimen>
 
+    <!-- Login -->
+    <dimen name="logo_size">80dp</dimen>
+    <dimen name="edit_text_margin">40dp</dimen>
+
     <!-- Font size -->
     <dimen name="font_avatar">32sp</dimen>
     <dimen name="font_title">20sp</dimen>

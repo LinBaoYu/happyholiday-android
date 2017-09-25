@@ -3,6 +3,8 @@
 
     <!-- Login -->
     <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 
     <!-- Home -->
     <string name="menu_map">Map</string>
