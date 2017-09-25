@@ -50,10 +50,10 @@ public class HomeActivity extends BaseActivity {
 
     private void createBottomNavBar() {
         // Create items
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.menu_map, R.drawable.ic_map_white_24dp, R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.menu_events, R.drawable.ic_event_note_white_24dp, R.color.colorPrimary);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.menu_friends, R.drawable.ic_people_white_24dp, R.color.colorPrimary);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.menu_profile, R.drawable.ic_account_circle_white_24dp, R.color.colorPrimary);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.menu_map, R.drawable.ic_map_white_24dp, R.color.colorPrimaryDark);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.menu_events, R.drawable.ic_event_note_white_24dp, R.color.colorPrimaryDark);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.menu_friends, R.drawable.ic_people_white_24dp, R.color.colorPrimaryDark);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.menu_profile, R.drawable.ic_account_circle_white_24dp, R.color.colorPrimaryDark);
 
         // Set background color
         ahBottomNavigation.setDefaultBackgroundColor(Color.WHITE);
@@ -65,7 +65,7 @@ public class HomeActivity extends BaseActivity {
         ahBottomNavigation.addItem(item4);
 
         // Change colors
-        ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         ahBottomNavigation.setInactiveColor(Color.GRAY);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
