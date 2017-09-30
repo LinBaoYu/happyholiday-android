@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.happyholiday.R;
@@ -18,6 +20,8 @@ import life.happyholiday.activities.LoginActivity;
  * create an instance of this fragment.
  */
 public class HomeProfileFragment extends Fragment {
+    @BindView(R.id.toolbar_title)
+    TextView textToolbarTitle;
 
     public HomeProfileFragment() {
         // Required empty public constructor
@@ -42,6 +46,8 @@ public class HomeProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_profile, container, false);
         ButterKnife.bind(this, view);
+
+        textToolbarTitle.setText(R.string.menu_profile);
 
         return view;
     }

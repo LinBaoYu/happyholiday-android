@@ -1,12 +1,10 @@
 package life.happyholiday.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +15,17 @@ import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
 
 /**
+ * Adapter for Event list in home screen.
+ * <p>
  * Created by tliy916e on 16/9/17.
  */
 
 public class HomeEventsAdapter extends RecyclerView.Adapter {
-
+    private ItemClickListener mClickListener;
     private List<EventModel> eventModelList;
 
     public HomeEventsAdapter() {
-        eventModelList = new ArrayList<EventModel>();
+        eventModelList = new ArrayList<>();
     }
 
     public HomeEventsAdapter(List<EventModel> eventModelList) {
@@ -36,16 +36,6 @@ public class HomeEventsAdapter extends RecyclerView.Adapter {
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_event_card, parent, false);
-
-        final Context context = parent.getContext();
-
-        // TODO remove this, just for testing
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "What??", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return new EventViewHolder(view);
     }
@@ -70,6 +60,14 @@ public class HomeEventsAdapter extends RecyclerView.Adapter {
         this.eventModelList = eventModelList;
     }
 
+    public List<EventModel> getEventModelList() {
+        return eventModelList;
+    }
+
+    public void setOnItemClickListener(ItemClickListener itemClickListener) {
+        mClickListener = itemClickListener;
+    }
+
     class EventViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.event_title)
         TextView textEventTitle;
@@ -83,6 +81,27 @@ public class HomeEventsAdapter extends RecyclerView.Adapter {
         EventViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mClickListener.onItemClick(getAdapterPosition(), view);
+                }
+            });
+
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    mClickListener.onItemLongClick(getAdapterPosition(), view);
+                    return true; // indicate that the touch event is consumed
+                }
+            });
         }
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position, View v);
+
+        void onItemLongClick(int position, View v);
     }
 }

@@ -18,11 +18,6 @@ import life.happyholiday.fragments.HomeMapFragment;
 import life.happyholiday.fragments.HomeProfileFragment;
 
 public class HomeActivity extends BaseActivity {
-    @BindView(R.id.toolbar_title)
-    TextView textToolbarTitle;
-    @BindView(R.id.btn_add)
-    View btnAdd;
-
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -74,23 +69,15 @@ public class HomeActivity extends BaseActivity {
             public boolean onTabSelected(int i, boolean b) {
                 switch (i) {
                     case 0:
-                        textToolbarTitle.setText(R.string.menu_map);
-                        btnAdd.setVisibility(View.GONE);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_home_main, mapFragment).commit();
                         break;
                     case 1:
-                        textToolbarTitle.setText(R.string.menu_events);
-                        btnAdd.setVisibility(View.VISIBLE);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_home_main, eventsFragment).commit();
                         break;
                     case 2:
-                        textToolbarTitle.setText(R.string.menu_friends);
-                        btnAdd.setVisibility(View.VISIBLE);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_home_main, friendsFragment).commit();
                         break;
                     case 3:
-                        textToolbarTitle.setText(R.string.menu_profile);
-                        btnAdd.setVisibility(View.GONE);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_home_main, profileFragment).commit();
                         break;
                 }

@@ -6,11 +6,17 @@
     tools:context="life.happyholiday.fragments.HomeProfileFragment"
     >
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar" />
+
     <RelativeLayout
         android:id="@+id/layout_avatar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/avatar_bar_height"
+        android:layout_below="@+id/toolbar"
         android:background="@color/colorPrimary"
+        android:elevation="2dp"
         >
 
         <TextView

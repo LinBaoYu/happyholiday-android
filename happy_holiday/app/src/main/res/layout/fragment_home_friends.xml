@@ -6,6 +6,10 @@
     tools:context="life.happyholiday.fragments.HomeFriendsFragment"
     >
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar" />
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"

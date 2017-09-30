@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,8 @@ public class HomeMapFragment extends Fragment {
     // TODO
     // 1. save camera position, last location
 
+    @BindView(R.id.toolbar_title)
+    TextView textToolbarTitle;
     @BindView(R.id.mapView)
     MapView mMapView;
     private GoogleMap googleMap;
@@ -59,6 +62,8 @@ public class HomeMapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_map, container, false);
         ButterKnife.bind(this, view);
+
+        textToolbarTitle.setText(R.string.menu_map);
 
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
