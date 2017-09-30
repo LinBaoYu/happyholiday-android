@@ -1,5 +1,6 @@
 package life.happyholiday.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.happyholiday.R;
+import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.EventModel;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
@@ -82,8 +84,11 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                // ToDo show event details
-                Toast.makeText(getContext(), "try long click --", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("event", adapter.getEventModelList().get(position));
+                intent.putExtras(b);
+                startActivity(intent);
             }
 
             @Override
