@@ -18,6 +18,7 @@
     <!-- Event Details -->
     <string name="join">Join</string>
     <string name="not_sure">Not Sure</string>
+    <string name="hint_enter_a_message">Enter something ;)</string>
 
     <!-- Util -->
     <string name="back">Back</string>

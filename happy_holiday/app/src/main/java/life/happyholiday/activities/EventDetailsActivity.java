@@ -12,6 +12,7 @@ import butterknife.OnClick;
 import life.happyholiday.R;
 import life.happyholiday.adapters.ScreenSlidePagerAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.SoftKeyboardHelper;
 
 public class EventDetailsActivity extends BaseActivity {
     @BindView(R.id.btn_back)
@@ -42,6 +43,22 @@ public class EventDetailsActivity extends BaseActivity {
 
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) { // select activity view
+                    SoftKeyboardHelper.hideSoftKeyboard(EventDetailsActivity.this);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @OnClick(R.id.btn_back)

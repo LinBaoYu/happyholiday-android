@@ -12,7 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.stfalcon.chatkit.messages.MessageInput;
+import com.stfalcon.chatkit.messages.MessagesList;
+import com.stfalcon.chatkit.messages.MessagesListAdapter;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,12 +26,20 @@ import butterknife.OnClick;
 import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
+import life.happyholiday.models.Author;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.models.Message;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
 
 public class EventChatFragment extends Fragment{
+    @BindView(R.id.messagesList)
+    MessagesList mMessagesList;
+    @BindView(R.id.input)
+    MessageInput mInputView;
+
+    MessagesListAdapter<Message> mAdapter;
 
     public EventChatFragment() {
         // Required empty public constructor
@@ -55,6 +69,21 @@ public class EventChatFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_chat, container, false);
         ButterKnife.bind(this, view);
+
+        // ********** Second param is imageLoader, null make avatar invisible
+        mAdapter = new MessagesListAdapter<>("0", null);
+        mMessagesList.setAdapter(mAdapter);
+
+        mInputView.setInputListener(new MessageInput.InputListener() {
+            @Override
+            public boolean onSubmit(CharSequence input) {
+                //validate and send message
+                String id = new Random().nextInt(2) + "";
+                Message message = new Message(id, input.toString(), new Author(id, "name", ""), new Date());
+                mAdapter.addToStart(message, true);
+                return true;
+            }
+        });
 
         return view;
     }
