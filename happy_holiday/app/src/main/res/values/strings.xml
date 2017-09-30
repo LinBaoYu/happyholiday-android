@@ -15,6 +15,10 @@
     <!-- Profile -->
     <string name="logout">Logout</string>
 
+    <!-- Event Details -->
+    <string name="join">Join</string>
+    <string name="not_sure">Not Sure</string>
+
     <!-- Util -->
     <string name="back">Back</string>
 

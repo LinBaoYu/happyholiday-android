@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import life.happyholiday.fragments.HomeEventsFragment;
-import life.happyholiday.fragments.HomeFriendsFragment;
-import life.happyholiday.fragments.HomeProfileFragment;
+import life.happyholiday.fragments.EventActivitiesFragment;
+import life.happyholiday.fragments.EventChatFragment;
 
 /**
  * Adapter that shows event details and chat
@@ -15,7 +14,7 @@ import life.happyholiday.fragments.HomeProfileFragment;
  */
 
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-    public static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 2;
 
     public ScreenSlidePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -24,9 +23,9 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return HomeFriendsFragment.newInstance();
+            return EventActivitiesFragment.newInstance();
         } else {
-            return HomeProfileFragment.newInstance();
+            return EventChatFragment.newInstance();
         }
     }
 
