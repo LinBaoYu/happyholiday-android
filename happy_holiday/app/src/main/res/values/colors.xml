@@ -7,4 +7,8 @@
     <color name="windowBackground">#F5F5F5F5</color>
     <color name="orange">#FFA500</color>
     <color name="text_dark">#DE000000</color>
+
+    <!-- Override BubbleActions colors -->
+    <color name="bubble_actions_background_darkened">#44000000</color>
+    <color name="bubble_actions_text_background">@color/colorPrimaryDark</color>
 </resources>

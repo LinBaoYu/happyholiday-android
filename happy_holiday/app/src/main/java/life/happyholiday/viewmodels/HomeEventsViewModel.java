@@ -7,6 +7,8 @@ import java.util.List;
 import life.happyholiday.models.EventModel;
 
 /**
+ * ViewModel for Events
+ *
  * Created by tliy916e on 16/9/17.
  */
 
@@ -38,8 +40,16 @@ public class HomeEventsViewModel {
         mListener.loadEventsSuccessful(eventModelList);
     }
 
+    public void deleteEvent(EventModel event) {
+        eventModelList.remove(event);
+
+        mListener.deleteEventSuccessful();
+    }
+
     public interface OnResponseListener {
         void loadEventsSuccessful(List<EventModel> eventModelList);
+
+        void deleteEventSuccessful();
 
         void error();
     }
