@@ -1,12 +1,13 @@
 package life.happyholiday.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by tliy916e on 16/9/17.
  */
 
-public class EventModel {
+public class EventModel implements Serializable {
 
     private String title;
     private int attendingCount;

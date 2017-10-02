@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
@@ -21,28 +21,21 @@ import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeEventsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.OnResponseListener {
-    @BindView(R.id.toolbar_title)
-    TextView textToolbarTitle;
-    @BindView(R.id.btn_add)
-    View btnAdd;
-
-    @BindView(R.id.list_event)
+public class EventActivitiesFragment extends Fragment implements HomeEventsViewModel.OnResponseListener {
+    @BindView(R.id.list_activity)
     RecyclerView recyclerView;
+    @BindView(R.id.btn_join)
+    Button btnJoin;
 
     HomeEventsViewModel viewModel;
     HomeEventsAdapter adapter;
 
-    public HomeEventsFragment() {
+    public EventActivitiesFragment() {
         // Required empty public constructor
     }
 
@@ -52,8 +45,8 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
      *
      * @return A new instance of fragment HomeEventsFragment.
      */
-    public static HomeEventsFragment newInstance() {
-        HomeEventsFragment fragment = new HomeEventsFragment();
+    public static EventActivitiesFragment newInstance() {
+        EventActivitiesFragment fragment = new EventActivitiesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -70,11 +63,8 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
         ButterKnife.bind(this, view);
-
-        textToolbarTitle.setText(R.string.menu_events);
-        btnAdd.setVisibility(View.VISIBLE);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -84,11 +74,6 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("event", adapter.getEventModelList().get(position));
-                intent.putExtras(b);
-                startActivity(intent);
             }
 
             @Override
@@ -136,11 +121,10 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
 
     @Override
     public void error() {
-
     }
 
-    @OnClick(R.id.btn_add)
-    void addEvent() {
-        viewModel.addEvent();
+    @OnClick(R.id.btn_join)
+    void joinBtnTapped() {
+        btnJoin.setText(getString(R.string.not_sure).equals(btnJoin.getText().toString()) ? R.string.join : R.string.not_sure);
     }
 }

@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#66ffb6c1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/discuss_here"
+        android:layout_marginTop="@dimen/margin_small"
+        android:alpha="0.6"
+        />
+
+    <com.stfalcon.chatkit.messages.MessagesList
+        android:id="@+id/messagesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/input" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        android:layout_above="@+id/input"/>
+
+    <com.stfalcon.chatkit.messages.MessageInput
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:inputHint="@string/hint_enter_a_message"/>
+</RelativeLayout>
