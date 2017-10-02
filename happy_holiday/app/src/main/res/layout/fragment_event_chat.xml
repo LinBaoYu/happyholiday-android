@@ -7,8 +7,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Chit Chat here!!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/discuss_here"
+        android:layout_marginTop="@dimen/margin_small"
         android:alpha="0.6"
         />
 

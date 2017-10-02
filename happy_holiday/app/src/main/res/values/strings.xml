@@ -19,6 +19,7 @@
     <string name="join">Join</string>
     <string name="not_sure">Not Sure</string>
     <string name="hint_enter_a_message">Enter something ;)</string>
+    <string name="discuss_here">Discuss here!</string>
 
     <!-- Util -->
     <string name="back">Back</string>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">哈吼</string>
+    <string name="back">返回</string>
+    <string name="discuss_here">讨论吧</string>
+    <string name="hint_enter_a_message">说点什么~~</string>
+    <string name="join">加入</string>
+    <string name="login">登录</string>
+    <string name="logout">注销</string>
+    <string name="menu_events">计划</string>
+    <string name="menu_friends">朋友</string>
+    <string name="menu_map">地图</string>
+    <string name="menu_profile">我</string>
+    <string name="not_sure">再想一下</string>
+    <string name="password">密码</string>
+    <string name="username">用户名</string>
+</resources>
