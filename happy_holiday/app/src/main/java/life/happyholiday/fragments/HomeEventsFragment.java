@@ -21,6 +21,7 @@ import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
@@ -72,6 +73,8 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_events, container, false);
         ButterKnife.bind(this, view);
+
+        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         textToolbarTitle.setText(R.string.menu_events);
         btnAdd.setVisibility(View.VISIBLE);

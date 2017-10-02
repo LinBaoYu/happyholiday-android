@@ -16,6 +16,7 @@ import life.happyholiday.fragments.HomeEventsFragment;
 import life.happyholiday.fragments.HomeFriendsFragment;
 import life.happyholiday.fragments.HomeMapFragment;
 import life.happyholiday.fragments.HomeProfileFragment;
+import life.happyholiday.utils.ColorConfigHelper;
 
 public class HomeActivity extends BaseActivity {
     @BindView(R.id.bottom_navigation)
@@ -60,7 +61,7 @@ public class HomeActivity extends BaseActivity {
         ahBottomNavigation.addItem(item4);
 
         // Change colors
-        ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        ahBottomNavigation.setAccentColor(ColorConfigHelper.getDarkPrimaryColor(this));
         ahBottomNavigation.setInactiveColor(Color.GRAY);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 

@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.happyholiday.R;
 import life.happyholiday.activities.LoginActivity;
+import life.happyholiday.utils.ColorConfigHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +47,9 @@ public class HomeProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_profile, container, false);
         ButterKnife.bind(this, view);
+
+        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+        view.findViewById(R.id.layout_avatar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         textToolbarTitle.setText(R.string.menu_profile);
 
