@@ -24,6 +24,8 @@
 
         <activity android:name=".activities.EventDetailsActivity"/>
 
+        <activity android:name=".activities.DebugActivity"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_api_key"/>

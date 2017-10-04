@@ -29,6 +29,7 @@ import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.Author;
 import life.happyholiday.models.EventModel;
 import life.happyholiday.models.Message;
+import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
@@ -69,6 +70,8 @@ public class EventChatFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_chat, container, false);
         ButterKnife.bind(this, view);
+
+        view.setBackgroundColor(ColorConfigHelper.getChatBgColor(getContext()));
 
         // ********** Second param is imageLoader, null make avatar invisible
         mAdapter = new MessagesListAdapter<>("0", null);

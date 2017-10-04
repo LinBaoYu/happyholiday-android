@@ -21,6 +21,7 @@ import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
@@ -65,6 +66,8 @@ public class EventActivitiesFragment extends Fragment implements HomeEventsViewM
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
         ButterKnife.bind(this, view);
+
+        btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

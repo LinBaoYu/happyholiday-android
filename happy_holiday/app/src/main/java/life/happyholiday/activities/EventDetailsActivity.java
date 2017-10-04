@@ -12,6 +12,7 @@ import butterknife.OnClick;
 import life.happyholiday.R;
 import life.happyholiday.adapters.ScreenSlidePagerAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 
 public class EventDetailsActivity extends BaseActivity {
@@ -30,6 +31,8 @@ public class EventDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
         ButterKnife.bind(this);
+
+        findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
 
         btnBack.setVisibility(View.VISIBLE);
 

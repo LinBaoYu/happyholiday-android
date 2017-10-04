@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.happyholiday.R;
+import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.utils.PermissionHelper;
 
 /**
@@ -62,6 +63,8 @@ public class HomeMapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_map, container, false);
         ButterKnife.bind(this, view);
+
+        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         textToolbarTitle.setText(R.string.menu_map);
 
