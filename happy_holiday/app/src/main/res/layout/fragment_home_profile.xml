@@ -85,6 +85,21 @@
         android:textSize="@dimen/font_normal"
         />
 
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_email"
+        android:layout_marginTop="@dimen/margin_small"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:text="@string/check_for_update"
+        android:textAllCaps="false"
+        android:textSize="@dimen/font_normal"
+        />
+
     <TextView
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"

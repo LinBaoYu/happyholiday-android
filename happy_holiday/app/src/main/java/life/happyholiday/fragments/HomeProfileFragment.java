@@ -1,6 +1,7 @@
 package life.happyholiday.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -54,6 +55,12 @@ public class HomeProfileFragment extends Fragment {
         textToolbarTitle.setText(R.string.menu_profile);
 
         return view;
+    }
+
+    @OnClick(R.id.btn_update)
+    void checkUpdate() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dropbox.com/sh/3u3x54r3ro8qutb/AADkdWcSur7TOhxRtx1Rs-mCa?dl=0"));
+        startActivity(browserIntent);
     }
 
     @OnClick(R.id.btn_logout)

@@ -13,6 +13,7 @@
     <string name="menu_profile">Profile</string>
 
     <!-- Profile -->
+    <string name="check_for_update">Check for Update in Dropbox</string>
     <string name="logout">Logout</string>
 
     <!-- Event Details -->
