@@ -32,7 +32,7 @@ import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
 
-public class EventActivitiesFragment extends Fragment implements EventActivitiesViewModel.OnResponseListener {
+public class EventActivitiesFragment extends Fragment implements EventActivitiesViewModel.OnResponseListener, EventActivitiesAdapter.NewActivityClickedListener {
     @BindView(R.id.list_activity)
     RecyclerView recyclerView;
     @BindView(R.id.btn_join)
@@ -78,7 +78,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new EventActivitiesAdapter();
+        mAdapter = new EventActivitiesAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         // Drag and Drop
@@ -90,6 +90,11 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         mViewModel.getActivities();
 
         return view;
+    }
+
+    @Override
+    public void onNewActivityClicked() {
+        mViewModel.addActivity();
     }
 
     @Override
