@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Event in home screen
+ *
  * Created by tliy916e on 16/9/17.
  */
 
