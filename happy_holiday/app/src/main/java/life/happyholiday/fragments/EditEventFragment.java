@@ -6,10 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,9 +36,14 @@ public class EditEventFragment extends Fragment {
     @BindView(R.id.start_date) TextView startDate;
     @BindView(R.id.end_date) TextView endDate;
     @BindView(R.id.number) TextView textNumber;
+    @BindView(R.id.date_start) DatePicker datePickerStart;
+    @BindView(R.id.date_end) DatePicker datePickerEnd;
 
     private Realm realm;
     private EventModel mEvent;
+
+    private Calendar mCalendarStart;
+    private Calendar mCalendarEnd;
 
     public EditEventFragment() {
         // Required empty public constructor
@@ -93,6 +101,16 @@ public class EditEventFragment extends Fragment {
         endDate.setText(StringHelper.getDateString(mEvent.getEndDate()));
         textNumber.setText(String.valueOf(mEvent.getVacancy()));
 
+        // Initialize calendar
+        mCalendarStart = Calendar.getInstance(Locale.getDefault());
+        mCalendarEnd = Calendar.getInstance(Locale.getDefault());
+        mCalendarStart.setTime(mEvent.getStartDate());
+        mCalendarStart.setTime(mEvent.getEndDate());
+
+        // Initialize date picker
+        datePickerStart.updateDate(mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH), mCalendarStart.get(Calendar.DAY_OF_MONTH));
+        datePickerEnd.updateDate(mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH), mCalendarEnd.get(Calendar.DAY_OF_MONTH));
+
         return view;
     }
 
@@ -118,14 +136,46 @@ public class EditEventFragment extends Fragment {
         textNumber.setText(StringHelper.updateIntString(textNumber.getText().toString(), 1));
     }
 
+    @OnClick(R.id.layout_start_date)
+    void showDatePickerStart() {
+        datePickerStart.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_set_1)
+    void setStartDate() {
+        mCalendarStart.set(Calendar.YEAR, datePickerStart.getYear());
+        mCalendarStart.set(Calendar.MONTH, datePickerStart.getMonth());
+        mCalendarStart.set(Calendar.DAY_OF_MONTH, datePickerStart.getDayOfMonth());
+
+        startDate.setText(StringHelper.getDateString(mCalendarStart.getTime()));
+
+        datePickerStart.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.layout_end_date)
+    void showDatePickerEnd() {
+        datePickerEnd.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_set_2)
+    void setEndDate() {
+        mCalendarEnd.set(Calendar.YEAR, datePickerEnd.getYear());
+        mCalendarEnd.set(Calendar.MONTH, datePickerEnd.getMonth());
+        mCalendarEnd.set(Calendar.DAY_OF_MONTH, datePickerEnd.getDayOfMonth());
+
+        endDate.setText(StringHelper.getDateString(mCalendarEnd.getTime()));
+
+        datePickerEnd.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.btn_save)
     void saveBtnTapped() {
         // Use an unmanaged object to edit values outside Realm transaction
         final EventModel event = new EventModel(editTitle.getText().toString(),
                 mEvent.getAttendingCount(),
                 StringHelper.getIntFromString(textNumber.getText().toString()),
-                StringHelper.getDateFromString(startDate.getText().toString()),
-                StringHelper.getDateFromString(endDate.getText().toString()));
+                mCalendarStart.getTime(),
+                mCalendarEnd.getTime());
         event.setId(mEvent.getId());
 
         RealmDataHelper.addOrUpdateEvent(realm, event);

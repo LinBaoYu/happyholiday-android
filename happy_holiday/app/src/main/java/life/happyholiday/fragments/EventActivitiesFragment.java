@@ -62,7 +62,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
 
-        btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
+//        btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
 
         // Initialize list and adapter
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

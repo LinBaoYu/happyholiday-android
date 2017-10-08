@@ -35,7 +35,7 @@ public class LoginActivity extends BaseActivity {
         // Test configurable color
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         viewGroup.setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
-        btnLogin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(this));
+//        btnLogin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(this));
     }
 
     @OnClick(R.id.logo)

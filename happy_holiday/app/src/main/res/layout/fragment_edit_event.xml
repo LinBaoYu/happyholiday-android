@@ -8,6 +8,7 @@
     android:background="@color/fragment_dialog_background">
 
     <LinearLayout
+        android:id="@+id/dialog_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -51,9 +52,12 @@
             >
 
             <LinearLayout
+                android:id="@+id/layout_start_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 android:layout_weight="1"
                 >
 
@@ -75,9 +79,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_end_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 android:layout_weight="1"
                 >
 
@@ -161,4 +168,51 @@
             />
     </LinearLayout>
 
+    <DatePicker
+        android:id="@+id/date_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/btn_set_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="@string/set"
+            android:textSize="@dimen/font_title"
+            android:textColor="@color/colorAccent"
+            />
+    </DatePicker>
+
+    <DatePicker
+        android:id="@+id/date_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/btn_set_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="@string/set"
+            android:textSize="@dimen/font_title"
+            android:textColor="@color/colorAccent"
+            />
+    </DatePicker>
 </FrameLayout>
