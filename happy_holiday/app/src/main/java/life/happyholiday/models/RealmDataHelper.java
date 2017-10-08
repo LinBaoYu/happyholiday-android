@@ -3,6 +3,7 @@ package life.happyholiday.models;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
+import java.util.Random;
 
 import io.realm.Realm;
 
@@ -15,14 +16,17 @@ import io.realm.Realm;
 public class RealmDataHelper {
 
     // Home event
-    public static void addEvent(Realm realm) {
+    public static void addOrUpdateEvent(Realm realm, final EventModel event) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                EventModel event = new EventModel("Singapore", 1, 5, new Date(), new Date());
+                // temp id
+                if (event.getId() == -1) event.setId((int) System.currentTimeMillis());
 
-                event.setId((int) System.currentTimeMillis());
-                realm.insert(event);
+                // random a attending count for now
+                event.setAttendingCount(new Random().nextInt(event.getVacancy()));
+
+                realm.copyToRealmOrUpdate(event);
             }
         });
     }

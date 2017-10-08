@@ -1,5 +1,6 @@
 package life.happyholiday.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,7 @@ public class HomeEventsFragment extends Fragment {
 
     private Realm realm;
     private HomeEventsAdapter adapter;
+    private FragmentListener mListener;
 
     public HomeEventsFragment() {
         // Required empty public constructor
@@ -102,7 +104,7 @@ public class HomeEventsFragment extends Fragment {
                         .addAction("Edit", R.drawable.ic_mode_edit_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
-                                Toast.makeText(getContext(), "Edit the event!", Toast.LENGTH_SHORT).show();
+                                mListener.showEditEventDialog(adapter.getItem(position));
                             }
                         })
                         .addAction("Delete", R.drawable.ic_highlight_off_black_24dp, new Callback() {
@@ -131,8 +133,27 @@ public class HomeEventsFragment extends Fragment {
         realm.close();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener = (FragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
     @OnClick(R.id.btn_add)
     void addEvent() {
-        RealmDataHelper.addEvent(realm);
+        mListener.showEditEventDialog(null);
+    }
+
+    // Container Activity must implement this interface
+    public interface FragmentListener {
+        void showEditEventDialog(EventModel event);
     }
 }

@@ -2,9 +2,6 @@ package life.happyholiday.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -12,13 +9,15 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.happyholiday.R;
+import life.happyholiday.fragments.EditEventFragment;
 import life.happyholiday.fragments.HomeEventsFragment;
 import life.happyholiday.fragments.HomeFriendsFragment;
 import life.happyholiday.fragments.HomeMapFragment;
 import life.happyholiday.fragments.HomeProfileFragment;
+import life.happyholiday.models.EventModel;
 import life.happyholiday.utils.ColorConfigHelper;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeEventsFragment.FragmentListener {
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -88,5 +87,14 @@ public class HomeActivity extends BaseActivity {
 
         // Set current item programmatically
         ahBottomNavigation.setCurrentItem(1);
+    }
+
+    @Override
+    public void showEditEventDialog(EventModel event) {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, event == null ? EditEventFragment.newInstance() : EditEventFragment.newInstance(event.getId()))
+                // Add this transaction to the back stack
+                .addToBackStack(null)
+                .commit();
     }
 }
