@@ -2,6 +2,7 @@ package life.happyholiday;
 
 import android.app.Application;
 
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -16,8 +17,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Timber log
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        // Realm Database
+        Realm.init(this);
     }
 }

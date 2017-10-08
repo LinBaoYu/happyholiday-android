@@ -4,14 +4,29 @@
     android:layout_height="match_parent"
     >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_activity"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/btn_join"
-        android:scrollbars="vertical"
-        />
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:paddingBottom="@dimen/activity_list_footer_height"
+            />
+
+        <View
+            android:id="@+id/add_activity"
+            android:layout_alignBottom="@+id/list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_list_footer_height"
+            android:background="@drawable/add_activity_button"
+            />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_join"

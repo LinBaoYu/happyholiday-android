@@ -9,6 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import life.happyholiday.R;
 import life.happyholiday.adapters.ScreenSlidePagerAdapter;
 import life.happyholiday.models.EventModel;
@@ -23,7 +24,6 @@ public class EventDetailsActivity extends BaseActivity {
     @BindView(R.id.pager)
     ViewPager mPager;
 
-    private PagerAdapter mPagerAdapter;
     private EventModel mEvent;
 
     @Override
@@ -31,6 +31,7 @@ public class EventDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
         ButterKnife.bind(this);
+        Realm realm = Realm.getDefaultInstance();
 
         findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
 
@@ -38,14 +39,19 @@ public class EventDetailsActivity extends BaseActivity {
 
         // Get event data
         Bundle b = getIntent().getExtras();
-        mEvent = (EventModel) b.getSerializable("event");
+
+        try {
+            int eventId = b.getInt("EVENT_ID");
+            mEvent = realm.where(EventModel.class).equalTo("id", eventId).findFirst();
+        } catch (NullPointerException ignored) {}
+
         if (mEvent == null) finish(); // Finish activity if event data not available
 
         // Update toolbar title
         textToolbarTitle.setText(mEvent.getTitle());
 
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(pagerAdapter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

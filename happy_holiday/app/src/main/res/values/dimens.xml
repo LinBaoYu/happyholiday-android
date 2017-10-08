@@ -12,7 +12,7 @@
     <dimen name="edit_text_margin">40dp</dimen>
 
     <!-- Event Details -->
-    <dimen name="activity_list_footer_height">56dp</dimen>
+    <dimen name="activity_list_footer_height">66dp</dimen>
 
     <!-- Font size -->
     <dimen name="font_avatar">32sp</dimen>

@@ -1,6 +1,5 @@
 package life.happyholiday.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,35 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import life.happyholiday.R;
-import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.EventActivitiesAdapter;
-import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.ActivityModel;
-import life.happyholiday.models.EventModel;
+import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.utils.SimpleItemTouchHelperCallback;
-import life.happyholiday.utils.SoftKeyboardHelper;
-import life.happyholiday.viewmodels.EventActivitiesViewModel;
-import life.happyholiday.viewmodels.HomeEventsViewModel;
-import me.samthompson.bubbleactions.BubbleActions;
-import me.samthompson.bubbleactions.Callback;
 
-public class EventActivitiesFragment extends Fragment implements EventActivitiesViewModel.OnResponseListener, EventActivitiesAdapter.NewActivityClickedListener {
+public class EventActivitiesFragment extends Fragment implements EventActivitiesAdapter.EventActivitiesListener {
     @BindView(R.id.list_activity)
     RecyclerView recyclerView;
     @BindView(R.id.btn_join)
     Button btnJoin;
 
-    EventActivitiesViewModel mViewModel;
-    EventActivitiesAdapter mAdapter;
+    private Realm realm;
 
     public EventActivitiesFragment() {
         // Required empty public constructor
@@ -62,7 +51,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModel = new EventActivitiesViewModel(this);
+        // retrieve Event here
     }
 
     @Override
@@ -71,6 +60,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
         ButterKnife.bind(this, view);
+        realm = Realm.getDefaultInstance();
 
         btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
 
@@ -78,38 +68,52 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new EventActivitiesAdapter(this);
-        recyclerView.setAdapter(mAdapter);
+        EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, realm.where(ActivityModel.class).findAll());
+        recyclerView.setAdapter(adapter);
 
         // Drag and Drop
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
-
-        // Load data
-        mViewModel.getActivities();
 
         return view;
     }
 
+    /*
+     * It is good practice to null the reference from the view to the adapter when it is no longer needed.
+     * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
+     * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
+     */
     @Override
-    public void onNewActivityClicked() {
-        mViewModel.addActivity();
+    public void onDestroy() {
+        super.onDestroy();
+        recyclerView.setAdapter(null);
+        realm.close();
     }
 
     @Override
-    public void loadActivitiesSuccessful(List<ActivityModel> activityModelList) {
-        mAdapter.setActivityModelList(activityModelList);
-        mAdapter.notifyDataSetChanged();
+    public void deleteActivity(ActivityModel activityModel) {
+        RealmDataHelper.deleteActivity(realm, activityModel);
     }
 
     @Override
-    public void deleteActivitySuccessful() {
-        mAdapter.notifyDataSetChanged();
+    public void voteUpActivity(ActivityModel activityModel) {
+        RealmDataHelper.voteUpActivity(realm, activityModel);
     }
 
     @Override
-    public void error() {
+    public void voteDownActivity(ActivityModel activityModel) {
+        RealmDataHelper.voteDownActivity(realm, activityModel);
+    }
+
+    @Override
+    public void updateActivitySequence(ActivityModel activityModel, int value) {
+        RealmDataHelper.updateActivitySequence(realm, activityModel, value);
+    }
+
+    @OnClick(R.id.add_activity)
+    void addActivity() {
+        RealmDataHelper.addActivity(realm);
     }
 
     @OnClick(R.id.btn_join)

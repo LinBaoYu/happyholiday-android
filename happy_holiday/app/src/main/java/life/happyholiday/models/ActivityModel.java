@@ -3,13 +3,19 @@ package life.happyholiday.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Activity in event details screen
  *
  * Created by tliy916e on 16/9/17.
  */
 
-public class ActivityModel implements Serializable {
+public class ActivityModel extends RealmObject {
+
+    @PrimaryKey
+    private int id;
 
     private String title;
     private String description;
@@ -19,10 +25,13 @@ public class ActivityModel implements Serializable {
     private int voteUp;
     private int voteDown;
 
+    private int sequence;
+
     public ActivityModel() {
     }
 
     public ActivityModel(String title, String description, String location, Date startDate, Date endDate, int voteUp, int voteDown) {
+        this.id = -1;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -30,6 +39,14 @@ public class ActivityModel implements Serializable {
         this.endDate = endDate;
         this.voteUp = voteUp;
         this.voteDown = voteDown;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -86,5 +103,13 @@ public class ActivityModel implements Serializable {
 
     public void setVoteDown(int voteDown) {
         this.voteDown = voteDown;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
     }
 }

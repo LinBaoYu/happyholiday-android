@@ -12,17 +12,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.ColorConfigHelper;
-import life.happyholiday.viewmodels.HomeEventsViewModel;
 import me.samthompson.bubbleactions.BubbleActions;
 import me.samthompson.bubbleactions.Callback;
 
@@ -31,7 +30,7 @@ import me.samthompson.bubbleactions.Callback;
  * Use the {@link HomeEventsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.OnResponseListener {
+public class HomeEventsFragment extends Fragment {
     @BindView(R.id.toolbar_title)
     TextView textToolbarTitle;
     @BindView(R.id.btn_add)
@@ -40,8 +39,8 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
     @BindView(R.id.list_event)
     RecyclerView recyclerView;
 
-    HomeEventsViewModel viewModel;
-    HomeEventsAdapter adapter;
+    private Realm realm;
+    private HomeEventsAdapter adapter;
 
     public HomeEventsFragment() {
         // Required empty public constructor
@@ -54,17 +53,7 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
      * @return A new instance of fragment HomeEventsFragment.
      */
     public static HomeEventsFragment newInstance() {
-        HomeEventsFragment fragment = new HomeEventsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        viewModel = new HomeEventsViewModel(this);
+        return new HomeEventsFragment();
     }
 
     @Override
@@ -76,20 +65,27 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
 
         view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
+        // Initialize Realm database
+        realm = Realm.getDefaultInstance();
+
+        // Update UI
         textToolbarTitle.setText(R.string.menu_events);
         btnAdd.setVisibility(View.VISIBLE);
 
+        // Set up RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new HomeEventsAdapter();
+        adapter = new HomeEventsAdapter(realm.where(EventModel.class).findAll());
+
+        // Add bubble actions to item in the list
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("event", adapter.getEventModelList().get(position));
+                b.putInt("EVENT_ID", adapter.getItem(position).getId());
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -112,7 +108,7 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
                         .addAction("Delete", R.drawable.ic_highlight_off_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
-                                viewModel.deleteEvent(adapter.getEventModelList().get(position));
+                                RealmDataHelper.deleteEvent(realm, adapter.getItem(position));
                             }
                         })
                         .show();
@@ -120,30 +116,23 @@ public class HomeEventsFragment extends Fragment implements HomeEventsViewModel.
         });
         recyclerView.setAdapter(adapter);
 
-        // Load data
-        viewModel.getEvents();
-
         return view;
     }
 
+    /*
+     * It is good practice to null the reference from the view to the adapter when it is no longer needed.
+     * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
+     * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
+     */
     @Override
-    public void loadEventsSuccessful(List<EventModel> eventModelList) {
-        adapter.setEventModelList(eventModelList);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void deleteEventSuccessful() {
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void error() {
-
+    public void onDestroy() {
+        super.onDestroy();
+        recyclerView.setAdapter(null);
+        realm.close();
     }
 
     @OnClick(R.id.btn_add)
     void addEvent() {
-        viewModel.addEvent();
+        RealmDataHelper.addEvent(realm);
     }
 }
