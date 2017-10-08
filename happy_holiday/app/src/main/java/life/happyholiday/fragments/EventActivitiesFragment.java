@@ -92,6 +92,11 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     }
 
     @Override
+    public void onNewActivityClicked() {
+        RealmDataHelper.addActivity(realm);
+    }
+
+    @Override
     public void deleteActivity(ActivityModel activityModel) {
         RealmDataHelper.deleteActivity(realm, activityModel);
     }
@@ -109,11 +114,6 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     @Override
     public void swapActivitySequence(ActivityModel act1, ActivityModel act2) {
         RealmDataHelper.swapActivitySequence(realm, act1, act2);
-    }
-
-    @OnClick(R.id.add_activity)
-    void addActivity() {
-        RealmDataHelper.addActivity(realm);
     }
 
     @OnClick(R.id.btn_join)

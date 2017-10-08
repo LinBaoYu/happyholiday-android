@@ -23,6 +23,8 @@ import life.happyholiday.models.ActivityModel;
 
 public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityModel, RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
+    private static final int FOOTER_VIEW = 1;
+
     private EventActivitiesListener mListener;
 
     public EventActivitiesAdapter(EventActivitiesListener listener, OrderedRealmCollection<ActivityModel> data) {
@@ -33,8 +35,15 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_activity_card, parent, false);
-        return new ActivityViewHolder(view);
+        View view;
+
+        if (viewType == FOOTER_VIEW) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_activity_card_footer, parent, false);
+            return new FooterViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_activity_card, parent, false);
+            return new ActivityViewHolder(view);
+        }
     }
 
     @Override
@@ -68,9 +77,29 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
     // For optimization purpose
     @Override
     public long getItemId(int index) {
+        // return -1 for footer
+        if (index == getData().size()) return -1;
+
         //noinspection ConstantConditions
         return getItem(index).getId();
     }
+
+    @Override
+    public int getItemCount() {
+        // Add extra view to show the footer view
+        return getData().size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getData().size()) {
+            // This is where we'll add footer.
+            return FOOTER_VIEW;
+        }
+
+        return super.getItemViewType(position);
+    }
+
 
     @Override
     public void onItemDismiss(int position) {
@@ -79,6 +108,9 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
+        // Do not move footer
+        if (toPosition == getData().size()) return;
+
         mListener.swapActivitySequence(getItem(fromPosition), getItem(toPosition));
     }
 
@@ -100,7 +132,22 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
         }
     }
 
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
+        FooterViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onNewActivityClicked();
+                }
+            });
+        }
+    }
+
+
     public interface EventActivitiesListener {
+
+        void onNewActivityClicked();
 
         void deleteActivity(ActivityModel activityModel);
 
