@@ -3,6 +3,7 @@ package life.happyholiday.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
@@ -39,6 +42,9 @@ public class HomeEventsFragment extends Fragment {
 
     @BindView(R.id.list_event)
     RecyclerView recyclerView;
+
+    @BindView(R.id.layout_empty_state)
+    View layoutEmptyState;
 
     private Realm realm;
     private HomeEventsAdapter adapter;
@@ -79,7 +85,16 @@ public class HomeEventsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new HomeEventsAdapter(realm.where(EventModel.class).findAll().sort("startDate"));
+        RealmResults<EventModel> results = realm.where(EventModel.class).findAll().sort("startDate");
+        results.addChangeListener(new RealmChangeListener<RealmResults<EventModel>>() {
+            @Override
+            public void onChange(@NonNull RealmResults<EventModel> eventModels) {
+                layoutEmptyState.setVisibility(eventModels.size() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
+        layoutEmptyState.setVisibility(results.size() == 0 ? View.VISIBLE : View.GONE);
+        adapter = new HomeEventsAdapter(results);
+
 
         // Add bubble actions to item in the list
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {

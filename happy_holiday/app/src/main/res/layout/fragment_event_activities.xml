@@ -23,4 +23,40 @@
         android:textColor="@color/white"
         android:background="@drawable/btn_bg_with_state"
         />
+
+    <RelativeLayout
+        android:id="@+id/layout_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/img_empty_state"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/temp_empty_state"
+            android:layout_centerInParent="true"
+            />
+
+        <TextView
+            android:id="@+id/text_empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_empty_state"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/there_is_no_event_yet"
+            />
+
+        <TextView
+            android:id="@+id/img_empty_state_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/temp_empty_state_arrow_up"
+            android:layout_toEndOf="@+id/img_empty_state"
+            android:layout_above="@+id/text_empty_state"
+            android:layout_marginStart="-40dp"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -114,6 +114,7 @@ public class EditActivityFragment extends Fragment {
 
     @OnClick(R.id.layout_time)
     void showTimePicker() {
+        SoftKeyboardHelper.hideSoftKeyboard(getActivity());
         timePicker.setVisibility(View.VISIBLE);
 
         if (Build.VERSION.SDK_INT >= 23 ) {

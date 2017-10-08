@@ -15,6 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.adapters.EventActivitiesAdapter;
 import life.happyholiday.models.ActivityModel;
@@ -27,6 +29,9 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     RecyclerView recyclerView;
     @BindView(R.id.btn_join)
     Button btnJoin;
+
+    @BindView(R.id.layout_empty_state)
+    View layoutEmptyState;
 
     private Realm realm;
 
@@ -68,13 +73,23 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, realm.where(ActivityModel.class).findAll().sort("sequence"));
+        RealmResults<ActivityModel> results = realm.where(ActivityModel.class).findAll().sort("sequence");
+        EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, results);
         recyclerView.setAdapter(adapter);
 
         // Drag and Drop
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
+
+        // Check for empty state
+        results.addChangeListener(new RealmChangeListener<RealmResults<ActivityModel>>() {
+            @Override
+            public void onChange(RealmResults<ActivityModel> activityModels) {
+                layoutEmptyState.setVisibility(activityModels.size() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
+        layoutEmptyState.setVisibility(results.size() == 0 ? View.VISIBLE : View.GONE);
 
         return view;
     }

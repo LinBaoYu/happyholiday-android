@@ -12,6 +12,7 @@
     <string name="menu_friends">Friends</string>
     <string name="menu_profile">Profile</string>
     <string name="num_of_num_people">%1$d/%2$d persons</string>
+    <string name="there_is_no_event_yet">There is nothing here.\nLet\'s add one!</string>
 
     <!-- Profile -->
     <string name="check_for_update">Check for Update in Dropbox</string>

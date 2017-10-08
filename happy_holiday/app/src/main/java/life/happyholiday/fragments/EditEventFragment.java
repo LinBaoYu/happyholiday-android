@@ -138,6 +138,7 @@ public class EditEventFragment extends Fragment {
 
     @OnClick(R.id.layout_start_date)
     void showDatePickerStart() {
+        SoftKeyboardHelper.hideSoftKeyboard(getActivity());
         datePickerStart.setVisibility(View.VISIBLE);
     }
 
@@ -154,6 +155,7 @@ public class EditEventFragment extends Fragment {
 
     @OnClick(R.id.layout_end_date)
     void showDatePickerEnd() {
+        SoftKeyboardHelper.hideSoftKeyboard(getActivity());
         datePickerEnd.setVisibility(View.VISIBLE);
     }
 
