@@ -30,6 +30,12 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="save">Save</string>
+    <string name="add_new_activity">Add New Activity</string>
+    <string name="edit_activity">Edit Activity</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="edit">Edit</string>
+    <string name="set">Set</string>
 
     <!-- Util -->
     <string name="back">Back</string>

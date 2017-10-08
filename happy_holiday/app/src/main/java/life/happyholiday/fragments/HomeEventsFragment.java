@@ -95,19 +95,19 @@ public class HomeEventsFragment extends Fragment {
             @Override
             public void onItemLongClick(final int position, View v) {
                 BubbleActions.on(v)
-                        .addAction("Join", R.drawable.ic_favorite_black_24dp, new Callback() {
+                        .addAction("Join", R.drawable.tint_accent_ic_favorite_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
                                 Toast.makeText(getContext(), "Join the event!", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .addAction("Edit", R.drawable.ic_mode_edit_black_24dp, new Callback() {
+                        .addAction("Edit", R.drawable.tint_accent_ic_mode_edit_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
                                 mListener.showEditEventDialog(adapter.getItem(position));
                             }
                         })
-                        .addAction("Delete", R.drawable.ic_highlight_off_black_24dp, new Callback() {
+                        .addAction("Delete", R.drawable.tint_accent_ic_highlight_off_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
                                 RealmDataHelper.deleteEvent(realm, adapter.getItem(position));

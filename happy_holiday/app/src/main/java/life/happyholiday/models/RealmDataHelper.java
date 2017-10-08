@@ -41,18 +41,20 @@ public class RealmDataHelper {
     }
 
     // Event - Activities
-    public static void addActivity(Realm realm) {
+    public static void addOrUpdateActivity(Realm realm, final ActivityModel act) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                ActivityModel act = new ActivityModel("Singapore", "Blah blah..", "@Mall", new Date(), new Date(), 0, 0);
+                // temp id
+                if (act.getId() == -1) act.setId((int) System.currentTimeMillis());
 
-                act.setId((int) System.currentTimeMillis());
+                // set sequence for new activity
+                if (act.getSequence() < 0) {
+                    Number maxSequenceNumber = realm.where(ActivityModel.class).max("sequence");
+                    act.setSequence(maxSequenceNumber == null ? 0 : maxSequenceNumber.intValue() + 1);
+                }
 
-                Number maxSequenceNumber = realm.where(ActivityModel.class).max("sequence");
-                act.setSequence(maxSequenceNumber == null ? 0 : maxSequenceNumber.intValue() + 1);
-
-                realm.insert(act);
+                realm.copyToRealmOrUpdate(act);
             }
         });
     }

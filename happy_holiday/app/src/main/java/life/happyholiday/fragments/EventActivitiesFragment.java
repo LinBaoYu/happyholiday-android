@@ -92,8 +92,12 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     }
 
     @Override
-    public void onNewActivityClicked() {
-        RealmDataHelper.addActivity(realm);
+    public void addOrEditActivity(ActivityModel act) {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, act == null ? EditActivityFragment.newInstance() : EditActivityFragment.newInstance(act.getId()))
+                // Add this transaction to the back stack
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

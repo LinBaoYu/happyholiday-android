@@ -20,7 +20,6 @@ import life.happyholiday.models.EventModel;
 import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.utils.StringHelper;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +66,6 @@ public class EditEventFragment extends Fragment {
 
         if (getArguments() != null) {
             int eventId = getArguments().getInt("EVENT_ID", -1);
-            Timber.e("event id " + eventId);
             mEvent = realm.where(EventModel.class).equalTo("id", eventId).findFirst();
         }
     }
