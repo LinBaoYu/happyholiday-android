@@ -80,11 +80,13 @@ public class RealmDataHelper {
         });
     }
 
-    public static void updateActivitySequence(Realm realm, final ActivityModel activity, final int value) {
+    public static void swapActivitySequence(Realm realm, final ActivityModel activity1, final ActivityModel activity2) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                activity.setSequence(activity.getSequence() + value);
+                int tempSeq = activity1.getSequence();
+                activity1.setSequence(activity2.getSequence());
+                activity2.setSequence(tempSeq);
             }
         });
     }

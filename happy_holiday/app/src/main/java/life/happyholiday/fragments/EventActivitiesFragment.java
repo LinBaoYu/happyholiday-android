@@ -68,7 +68,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, realm.where(ActivityModel.class).findAll());
+        EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, realm.where(ActivityModel.class).findAll().sort("sequence"));
         recyclerView.setAdapter(adapter);
 
         // Drag and Drop
@@ -107,8 +107,8 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     }
 
     @Override
-    public void updateActivitySequence(ActivityModel activityModel, int value) {
-        RealmDataHelper.updateActivitySequence(realm, activityModel, value);
+    public void swapActivitySequence(ActivityModel act1, ActivityModel act2) {
+        RealmDataHelper.swapActivitySequence(realm, act1, act2);
     }
 
     @OnClick(R.id.add_activity)

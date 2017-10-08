@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Collections;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
-import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.models.ActivityModel;
 
@@ -81,19 +79,7 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                mListener.updateActivitySequence(getItem(fromPosition), 1);
-                mListener.updateActivitySequence(getItem(toPosition), -1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                mListener.updateActivitySequence(getItem(fromPosition), -1);
-                mListener.updateActivitySequence(getItem(toPosition), 1);
-            }
-        }
-
-        RealmResults<ActivityModel> results = getData().sort("sequence");
+        mListener.swapActivitySequence(getItem(fromPosition), getItem(toPosition));
     }
 
     class ActivityViewHolder extends RecyclerView.ViewHolder {
@@ -122,6 +108,6 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
 
         void voteDownActivity(ActivityModel activityModel);
 
-        void updateActivitySequence(ActivityModel activityModel, int value);
+        void swapActivitySequence(ActivityModel act1, ActivityModel act2);
     }
 }
