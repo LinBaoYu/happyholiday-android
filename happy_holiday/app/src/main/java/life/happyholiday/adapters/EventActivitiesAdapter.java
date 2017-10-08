@@ -52,7 +52,6 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
             final ActivityModel activity = getItem(position);
             final ActivityViewHolder activityViewHolder = (ActivityViewHolder) holder;
 
-            activityViewHolder.viewMarginTop.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             activityViewHolder.textActivityTime.setText("10:00 am");
             activityViewHolder.textActivityTitle.setText(activity.getTitle());
             activityViewHolder.textUpVote.setText(String.format(Locale.getDefault(), "%d", activity.getVoteUp()));
@@ -115,8 +114,6 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
     }
 
     class ActivityViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.view_margin_top)
-        View viewMarginTop;
         @BindView(R.id.activity_time)
         TextView textActivityTime;
         @BindView(R.id.activity_title)
