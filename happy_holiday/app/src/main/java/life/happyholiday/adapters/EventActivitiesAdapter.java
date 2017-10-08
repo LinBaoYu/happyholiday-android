@@ -6,13 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.ActivityModel;
 
@@ -22,20 +21,16 @@ import life.happyholiday.models.ActivityModel;
  * Created by tliy916e on 5/10/17.
  */
 
-public class EventActivitiesAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
+public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityModel, RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
     private static final int FOOTER_VIEW = 1;
 
-    private NewActivityClickedListener mListener;
-    private List<ActivityModel> activityModelList;
+    private EventActivitiesListener mListener;
 
-    public EventActivitiesAdapter(NewActivityClickedListener listener) {
-        activityModelList = new ArrayList<>();
+    public EventActivitiesAdapter(EventActivitiesListener listener, OrderedRealmCollection<ActivityModel> data) {
+        super(data, true);
         mListener = listener;
-    }
-
-    public EventActivitiesAdapter(List<ActivityModel> activityModelList) {
-        this.activityModelList = activityModelList;
+        setHasStableIds(true); // For optimization purpose
     }
 
     @Override
@@ -54,7 +49,7 @@ public class EventActivitiesAdapter extends RecyclerView.Adapter implements Item
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ActivityViewHolder) {
-            final ActivityModel activity = activityModelList.get(position);
+            final ActivityModel activity = getItem(position);
             final ActivityViewHolder activityViewHolder = (ActivityViewHolder) holder;
 
             activityViewHolder.textActivityTime.setText("10:00 am");
@@ -65,39 +60,38 @@ public class EventActivitiesAdapter extends RecyclerView.Adapter implements Item
             activityViewHolder.textUpVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.setVoteUp(activity.getVoteUp() + 1);
-                    activityViewHolder.textUpVote.setText(String.format(Locale.getDefault(), "%d", activity.getVoteUp()));
+                    mListener.voteUpActivity(activity);
                 }
             });
 
             activityViewHolder.textDownVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.setVoteDown(activity.getVoteDown() - 1);
-                    activityViewHolder.textDownVote.setText(String.format(Locale.getDefault(), "%d", activity.getVoteDown()));
+                    mListener.voteDownActivity(activity);
                 }
             });
         }
     }
 
+    // For optimization purpose
+    @Override
+    public long getItemId(int index) {
+        // return -1 for footer
+        if (index == getData().size()) return -1;
+
+        //noinspection ConstantConditions
+        return getItem(index).getId();
+    }
+
     @Override
     public int getItemCount() {
-        if (activityModelList == null) {
-            return 0;
-        }
-
-        if (activityModelList.size() == 0) {
-            //Return 1 here to show nothing
-            return 1;
-        }
-
         // Add extra view to show the footer view
-        return activityModelList.size() + 1;
+        return getData().size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == activityModelList.size()) {
+        if (position == getData().size()) {
             // This is where we'll add footer.
             return FOOTER_VIEW;
         }
@@ -105,32 +99,18 @@ public class EventActivitiesAdapter extends RecyclerView.Adapter implements Item
         return super.getItemViewType(position);
     }
 
-    public void setActivityModelList(List<ActivityModel> activityModelList) {
-        this.activityModelList = activityModelList;
-    }
-
-    public List<ActivityModel> getActivityModelList() {
-        return activityModelList;
-    }
 
     @Override
     public void onItemDismiss(int position) {
-        activityModelList.remove(position);
-        notifyItemRemoved(position);
+        mListener.deleteActivity(getItem(position));
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(activityModelList, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(activityModelList, i, i - 1);
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition);
+        // Do not move footer
+        if (toPosition == getData().size()) return;
+
+        mListener.swapActivitySequence(getItem(fromPosition), getItem(toPosition));
     }
 
     class ActivityViewHolder extends RecyclerView.ViewHolder {
@@ -149,8 +129,8 @@ public class EventActivitiesAdapter extends RecyclerView.Adapter implements Item
         }
     }
 
-    class FooterViewHolder extends RecyclerView.ViewHolder {
-        public FooterViewHolder(View itemView) {
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
+        FooterViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -161,7 +141,17 @@ public class EventActivitiesAdapter extends RecyclerView.Adapter implements Item
         }
     }
 
-    public interface NewActivityClickedListener {
+
+    public interface EventActivitiesListener {
+
         void onNewActivityClicked();
+
+        void deleteActivity(ActivityModel activityModel);
+
+        void voteUpActivity(ActivityModel activityModel);
+
+        void voteDownActivity(ActivityModel activityModel);
+
+        void swapActivitySequence(ActivityModel act1, ActivityModel act2);
     }
 }

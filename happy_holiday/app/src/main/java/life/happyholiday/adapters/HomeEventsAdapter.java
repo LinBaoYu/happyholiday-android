@@ -11,6 +11,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
 
@@ -20,16 +22,12 @@ import life.happyholiday.models.EventModel;
  * Created by tliy916e on 16/9/17.
  */
 
-public class HomeEventsAdapter extends RecyclerView.Adapter {
+public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, RecyclerView.ViewHolder> {
     private ItemClickListener mClickListener;
-    private List<EventModel> eventModelList;
 
-    public HomeEventsAdapter() {
-        eventModelList = new ArrayList<>();
-    }
-
-    public HomeEventsAdapter(List<EventModel> eventModelList) {
-        this.eventModelList = eventModelList;
+    public HomeEventsAdapter(OrderedRealmCollection<EventModel> data) {
+        super(data, true);
+        setHasStableIds(true); // For optimization purpose
     }
 
     @Override
@@ -42,26 +40,21 @@ public class HomeEventsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        EventModel event = eventModelList.get(position);
-        final EventViewHolder eventViewHolder = (EventViewHolder) holder;
+        EventModel event = getItem(position);
+        EventViewHolder eventViewHolder = (EventViewHolder) holder;
 
+        eventViewHolder.viewMarginTop.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
         eventViewHolder.textEventTitle.setText(event.getTitle());
         eventViewHolder.textEventAttendersCount.setText(event.getAttendingCount() + "/" + event.getVacancy() + " persons");
         eventViewHolder.textEventDate.setText("Sep 18, 2017");
         eventViewHolder.textEventDuration.setText("1d");
     }
 
+    // For optimization purpose
     @Override
-    public int getItemCount() {
-        return eventModelList.size();
-    }
-
-    public void setEventModelList(List<EventModel> eventModelList) {
-        this.eventModelList = eventModelList;
-    }
-
-    public List<EventModel> getEventModelList() {
-        return eventModelList;
+    public long getItemId(int index) {
+        //noinspection ConstantConditions
+        return getItem(index).getId();
     }
 
     public void setOnItemClickListener(ItemClickListener itemClickListener) {
@@ -69,6 +62,8 @@ public class HomeEventsAdapter extends RecyclerView.Adapter {
     }
 
     class EventViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.view_margin_top)
+        View viewMarginTop;
         @BindView(R.id.event_title)
         TextView textEventTitle;
         @BindView(R.id.event_attenders_count)

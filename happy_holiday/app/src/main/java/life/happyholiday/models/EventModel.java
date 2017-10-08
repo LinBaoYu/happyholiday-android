@@ -3,13 +3,19 @@ package life.happyholiday.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Event in home screen
  *
  * Created by tliy916e on 16/9/17.
  */
 
-public class EventModel implements Serializable {
+public class EventModel extends RealmObject {
+
+    @PrimaryKey
+    private int id;
 
     private String title;
     private int attendingCount;
@@ -21,11 +27,20 @@ public class EventModel implements Serializable {
     }
 
     public EventModel(String title, int attendingCount, int vacancy, Date startDate, Date endDate) {
+        this.id = -1;
         this.title = title;
         this.attendingCount = attendingCount;
         this.vacancy = vacancy;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

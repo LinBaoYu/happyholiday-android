@@ -3,6 +3,7 @@ package life.happyholiday.utils;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import life.happyholiday.adapters.EventActivitiesAdapter;
 import life.happyholiday.adapters.ItemTouchHelperAdapter;
 
 /**
@@ -31,6 +32,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder instanceof EventActivitiesAdapter.FooterViewHolder) {
+            return makeMovementFlags(0, 0);
+        }
+
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         int swipeFlags = ItemTouchHelper.END;
         return makeMovementFlags(dragFlags, swipeFlags);

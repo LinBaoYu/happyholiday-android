@@ -1,38 +1,24 @@
 package life.happyholiday.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.happyholiday.R;
-import life.happyholiday.activities.EventDetailsActivity;
-import life.happyholiday.adapters.HomeEventsAdapter;
 import life.happyholiday.models.Author;
-import life.happyholiday.models.EventModel;
 import life.happyholiday.models.Message;
 import life.happyholiday.utils.ColorConfigHelper;
-import life.happyholiday.viewmodels.HomeEventsViewModel;
-import me.samthompson.bubbleactions.BubbleActions;
-import me.samthompson.bubbleactions.Callback;
 
 public class EventChatFragment extends Fragment{
     @BindView(R.id.messagesList)
