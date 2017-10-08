@@ -33,8 +33,8 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         // Test configurable color
-        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
-        viewGroup.setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
+//        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+//        viewGroup.setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
 //        btnLogin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(this));
     }
 

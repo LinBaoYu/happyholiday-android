@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4BBCF4</color>
-    <color name="colorPrimaryDark">#1da4e5</color>
+    <color name="colorPrimary">#A4E7DF</color>
+    <color name="colorPrimaryDark">#5abcb0</color>
     <color name="colorAccent">#FFA500</color>
 
     <color name="windowBackground">#F5F5F5F5</color>
     <color name="orange">#FFA500</color>
     <color name="text_dark">#DE000000</color>
+    <color name="chat_bg">#ffffe0</color>
 
-    <color name="fragment_dialog_background">#99000000</color>
+    <color name="fragment_dialog_background">#89000000</color>
 
     <!-- Override BubbleActions colors -->
     <color name="bubble_actions_background_darkened">#44000000</color>
-    <color name="bubble_actions_text_background">@color/colorPrimaryDark</color>
+    <color name="bubble_actions_text_background">@color/colorAccent</color>
 </resources>

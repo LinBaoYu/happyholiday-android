@@ -65,7 +65,7 @@ public class HomeEventsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_events, container, false);
         ButterKnife.bind(this, view);
 
-        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+//        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         // Initialize Realm database
         realm = Realm.getDefaultInstance();

@@ -57,7 +57,7 @@ public class EventChatFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_event_chat, container, false);
         ButterKnife.bind(this, view);
 
-        view.setBackgroundColor(ColorConfigHelper.getChatBgColor(getContext()));
+//        view.setBackgroundColor(ColorConfigHelper.getChatBgColor(getContext()));
 
         // ********** Second param is imageLoader, null make avatar invisible
         mAdapter = new MessagesListAdapter<>("0", null);

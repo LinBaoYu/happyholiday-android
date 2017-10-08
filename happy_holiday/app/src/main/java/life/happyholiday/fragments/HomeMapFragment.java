@@ -64,7 +64,7 @@ public class HomeMapFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_map, container, false);
         ButterKnife.bind(this, view);
 
-        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+//        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         textToolbarTitle.setText(R.string.menu_map);
 

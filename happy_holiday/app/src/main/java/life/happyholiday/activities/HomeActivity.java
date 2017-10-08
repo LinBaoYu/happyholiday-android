@@ -2,6 +2,7 @@ package life.happyholiday.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -60,7 +61,8 @@ public class HomeActivity extends BaseActivity implements HomeEventsFragment.Fra
         ahBottomNavigation.addItem(item4);
 
         // Change colors
-        ahBottomNavigation.setAccentColor(ColorConfigHelper.getDarkPrimaryColor(this));
+//        ahBottomNavigation.setAccentColor(ColorConfigHelper.getDarkPrimaryColor(this));
+        ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         ahBottomNavigation.setInactiveColor(Color.GRAY);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 

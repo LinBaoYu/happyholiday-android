@@ -37,7 +37,7 @@ public class EventDetailsActivity extends BaseActivity {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
 
-        findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
+//        findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(this));
 
         findViewById(R.id.btn_edit).setVisibility(View.VISIBLE);
         btnBack.setVisibility(View.VISIBLE);
