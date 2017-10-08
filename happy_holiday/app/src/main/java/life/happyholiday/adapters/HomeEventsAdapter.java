@@ -1,5 +1,6 @@
 package life.happyholiday.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.StringHelper;
 
 /**
  * Adapter for Event list in home screen.
@@ -24,6 +26,7 @@ import life.happyholiday.models.EventModel;
 
 public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, RecyclerView.ViewHolder> {
     private ItemClickListener mClickListener;
+    private Context mContext;
 
     public HomeEventsAdapter(OrderedRealmCollection<EventModel> data) {
         super(data, true);
@@ -32,7 +35,8 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.layout_event_card, parent, false);
 
         return new EventViewHolder(view);
@@ -45,8 +49,8 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
 
         eventViewHolder.viewMarginTop.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
         eventViewHolder.textEventTitle.setText(event.getTitle());
-        eventViewHolder.textEventAttendersCount.setText(event.getAttendingCount() + "/" + event.getVacancy() + " persons");
-        eventViewHolder.textEventDate.setText("Sep 18, 2017");
+        eventViewHolder.textEventAttendersCount.setText(mContext.getString(R.string.num_of_num_people,event.getAttendingCount(), event.getVacancy()));
+        eventViewHolder.textEventDate.setText(StringHelper.getDateString(event.getStartDate()));
         eventViewHolder.textEventDuration.setText("1d");
     }
 

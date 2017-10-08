@@ -79,7 +79,7 @@ public class HomeEventsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new HomeEventsAdapter(realm.where(EventModel.class).findAll());
+        adapter = new HomeEventsAdapter(realm.where(EventModel.class).findAll().sort("startDate"));
 
         // Add bubble actions to item in the list
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {

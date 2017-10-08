@@ -38,5 +38,17 @@
         android:src="@drawable/ic_add_white_36dp"
         android:scaleType="center"
         android:visibility="gone"
+        android:contentDescription="@null"
+        />
+
+    <ImageView
+        android:id="@+id/btn_edit"
+        android:layout_width="@dimen/toolbar_height"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/tint_white_ic_mode_edit_black_24dp"
+        android:scaleType="center"
+        android:visibility="gone"
+        android:contentDescription="@null"
         />
 </RelativeLayout>
