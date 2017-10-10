@@ -14,6 +14,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.ActivityModel;
+import life.happyholiday.models.EventModel;
 import life.happyholiday.utils.StringHelper;
 
 /**

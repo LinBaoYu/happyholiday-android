@@ -3,6 +3,7 @@ package life.happyholiday.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -22,6 +23,7 @@ public class EventModel extends RealmObject {
     private int vacancy;
     private Date startDate;
     private Date endDate;
+    private RealmList<ActivityModel> activities;
 
     public EventModel() {
     }
@@ -81,5 +83,13 @@ public class EventModel extends RealmObject {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public RealmList<ActivityModel> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(RealmList<ActivityModel> activities) {
+        this.activities = activities;
     }
 }

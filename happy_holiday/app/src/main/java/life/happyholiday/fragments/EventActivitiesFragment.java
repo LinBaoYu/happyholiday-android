@@ -16,10 +16,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.adapters.EventActivitiesAdapter;
 import life.happyholiday.models.ActivityModel;
+import life.happyholiday.models.EventModel;
 import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.ColorConfigHelper;
 import life.happyholiday.utils.SimpleItemTouchHelperCallback;
@@ -34,6 +36,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     View layoutEmptyState;
 
     private Realm realm;
+    private EventModel mEvent;
 
     public EventActivitiesFragment() {
         // Required empty public constructor
@@ -45,9 +48,10 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
      *
      * @return A new instance of fragment HomeEventsFragment.
      */
-    public static EventActivitiesFragment newInstance() {
+    public static EventActivitiesFragment newInstance(int eventId) {
         EventActivitiesFragment fragment = new EventActivitiesFragment();
         Bundle args = new Bundle();
+        args.putInt("EVENT_ID", eventId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,8 +59,13 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
 
-        // retrieve Event here
+        // retrieve Event
+        if (getArguments() != null) {
+            mEvent = realm.where(EventModel.class).equalTo("id", getArguments().getInt("EVENT_ID", -1)).findFirst();
+            if (mEvent == null) getActivity().finish(); // Exit if no Event data
+        }
     }
 
     @Override
@@ -65,7 +74,6 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
         ButterKnife.bind(this, view);
-        realm = Realm.getDefaultInstance();
 
 //        btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
 
@@ -73,7 +81,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        RealmResults<ActivityModel> results = realm.where(ActivityModel.class).findAll().sort("sequence");
+        RealmResults<ActivityModel> results = mEvent.getActivities().sort("sequence");
         EventActivitiesAdapter adapter = new EventActivitiesAdapter(this, results);
         recyclerView.setAdapter(adapter);
 
@@ -109,7 +117,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     @Override
     public void addOrEditActivity(ActivityModel act) {
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, act == null ? EditActivityFragment.newInstance() : EditActivityFragment.newInstance(act.getId()))
+                .add(R.id.fragment_container, EditActivityFragment.newInstance(act == null ? -1 : act.getId(), mEvent.getId()))
                 // Add this transaction to the back stack
                 .addToBackStack(null)
                 .commit();

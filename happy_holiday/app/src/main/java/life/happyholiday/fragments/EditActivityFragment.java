@@ -21,6 +21,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import life.happyholiday.R;
 import life.happyholiday.models.ActivityModel;
+import life.happyholiday.models.EventModel;
 import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.utils.StringHelper;
@@ -41,6 +42,7 @@ public class EditActivityFragment extends Fragment {
 
     private Realm realm;
     private ActivityModel mActivity;
+    private EventModel mEvent;
     private Calendar mCalendar;
 
     public EditActivityFragment() {
@@ -53,14 +55,11 @@ public class EditActivityFragment extends Fragment {
      *
      * @return A new instance of fragment HomeFriendsFragment.
      */
-    public static EditActivityFragment newInstance() {
-        return new EditActivityFragment();
-    }
-
-    public static EditActivityFragment newInstance(int actId) {
+    public static EditActivityFragment newInstance(int actId, int eventId) {
         EditActivityFragment fragment = new EditActivityFragment();
         Bundle args = new Bundle();
         args.putInt("ACTIVITY_ID", actId);
+        args.putInt("EVENT_ID", eventId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +71,10 @@ public class EditActivityFragment extends Fragment {
 
         if (getArguments() != null) {
             int actId = getArguments().getInt("ACTIVITY_ID", -1);
+            int eventId = getArguments().getInt("EVENT_ID", -1);
             mActivity = realm.where(ActivityModel.class).equalTo("id", actId).findFirst();
+            mEvent = realm.where(EventModel.class).equalTo("id", eventId).findFirst();
+            if (mEvent == null) getActivity().finish(); // Exit if no Event data
         }
     }
 
@@ -154,7 +156,7 @@ public class EditActivityFragment extends Fragment {
         act.setId(mActivity.getId());
         act.setSequence(mActivity.getSequence());
 
-        RealmDataHelper.addOrUpdateActivity(realm, act);
+        RealmDataHelper.addOrUpdateActivity(realm, act, mEvent);
         getActivity().onBackPressed();
     }
 

@@ -2,10 +2,10 @@ package life.happyholiday.models;
 
 import android.support.annotation.NonNull;
 
-import java.util.Date;
 import java.util.Random;
 
 import io.realm.Realm;
+import timber.log.Timber;
 
 /**
  * CRUD for Realm
@@ -41,20 +41,23 @@ public class RealmDataHelper {
     }
 
     // Event - Activities
-    public static void addOrUpdateActivity(Realm realm, final ActivityModel act) {
+    public static void addOrUpdateActivity(Realm realm, final ActivityModel act, final EventModel eventModel) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                // temp id
-                if (act.getId() == -1) act.setId((int) System.currentTimeMillis());
-
                 // set sequence for new activity
                 if (act.getSequence() < 0) {
-                    Number maxSequenceNumber = realm.where(ActivityModel.class).max("sequence");
+                    Number maxSequenceNumber = eventModel.getActivities().max("sequence");
                     act.setSequence(maxSequenceNumber == null ? 0 : maxSequenceNumber.intValue() + 1);
                 }
 
-                realm.copyToRealmOrUpdate(act);
+                // temp id
+                if (act.getId() == -1) { // new Activity
+                    act.setId((int) System.currentTimeMillis());
+                    eventModel.getActivities().add(act);
+                } else {
+                    realm.copyToRealmOrUpdate(act);
+                }
             }
         });
     }

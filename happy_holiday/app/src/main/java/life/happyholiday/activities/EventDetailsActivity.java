@@ -62,7 +62,7 @@ public class EventDetailsActivity extends BaseActivity {
         // Update toolbar title
         textToolbarTitle.setText(mEvent.getTitle());
 
-        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), mEvent.getId());
         mPager.setAdapter(pagerAdapter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
