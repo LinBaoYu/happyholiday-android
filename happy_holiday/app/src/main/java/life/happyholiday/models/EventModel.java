@@ -24,6 +24,7 @@ public class EventModel extends RealmObject {
     private Date startDate;
     private Date endDate;
     private RealmList<ActivityModel> activities;
+    private RealmList<Message> messages;
 
     public EventModel() {
     }
@@ -91,5 +92,13 @@ public class EventModel extends RealmObject {
 
     public void setActivities(RealmList<ActivityModel> activities) {
         this.activities = activities;
+    }
+
+    public RealmList<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(RealmList<Message> messages) {
+        this.messages = messages;
     }
 }

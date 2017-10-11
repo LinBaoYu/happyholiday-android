@@ -28,7 +28,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) {
             return EventActivitiesFragment.newInstance(eventId);
         } else {
-            return EventChatFragment.newInstance();
+            return EventChatFragment.newInstance(eventId);
         }
     }
 

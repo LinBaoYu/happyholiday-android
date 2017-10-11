@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import java.util.Random;
 
 import io.realm.Realm;
-import timber.log.Timber;
 
 /**
  * CRUD for Realm
@@ -15,7 +14,9 @@ import timber.log.Timber;
 
 public class RealmDataHelper {
 
-    // Home event
+    ///////////////////////////////////////////////////////////////////////////
+    // Home events
+    ///////////////////////////////////////////////////////////////////////////
     public static void addOrUpdateEvent(Realm realm, final EventModel event) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -40,7 +41,9 @@ public class RealmDataHelper {
         });
     }
 
+    ///////////////////////////////////////////////////////////////////////////
     // Event - Activities
+    ///////////////////////////////////////////////////////////////////////////
     public static void addOrUpdateActivity(Realm realm, final ActivityModel act, final EventModel eventModel) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -96,6 +99,30 @@ public class RealmDataHelper {
                 int tempSeq = activity1.getSequence();
                 activity1.setSequence(activity2.getSequence());
                 activity2.setSequence(tempSeq);
+            }
+        });
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Chat
+    ///////////////////////////////////////////////////////////////////////////
+    public static void checkAndCreateAuthor(Realm realm, final String id) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                final Author author = realm.where(Author.class).equalTo("id", id).findFirst();
+                if (author == null) {
+                    realm.copyToRealmOrUpdate(new Author(id, "name" + id, ""));
+                }
+            }
+        });
+    }
+
+    public static void addMessage(Realm realm, final EventModel event, final Message message) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                event.getMessages().add(message);
             }
         });
     }

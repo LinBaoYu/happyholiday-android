@@ -150,6 +150,13 @@ public class EditEventFragment extends Fragment {
 
         startDate.setText(StringHelper.getDateString(mCalendarStart.getTime()));
 
+        // Update end date if start date is later than end date
+        if (mCalendarStart.getTimeInMillis() > mCalendarEnd.getTimeInMillis()) {
+            mCalendarEnd = mCalendarStart;
+            endDate.setText(StringHelper.getDateString(mCalendarEnd.getTime()));
+            datePickerEnd.updateDate(mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH), mCalendarEnd.get(Calendar.DAY_OF_MONTH));
+        }
+
         datePickerStart.setVisibility(View.GONE);
     }
 
