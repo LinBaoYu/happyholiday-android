@@ -1,8 +1,16 @@
 package life.happyholiday.activities;
 
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionSet;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -92,11 +100,27 @@ public class HomeActivity extends BaseActivity implements HomeEventsFragment.Fra
     }
 
     @Override
-    public void showEditEventDialog(EventModel event) {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, event == null ? EditEventFragment.newInstance() : EditEventFragment.newInstance(event.getId()))
+    public void showEditEventDialog(View sharedElement, EventModel event) {
+        EditEventFragment editEventFragment = event == null ? EditEventFragment.newInstance() : EditEventFragment.newInstance(event.getId());
+        editEventFragment.setSharedElementEnterTransition(new DetailsTransition());
+        editEventFragment.setEnterTransition(new Slide());
+        editEventFragment.setExitTransition(new Fade());
+        editEventFragment.setSharedElementReturnTransition(new DetailsTransition());
+
+        getFragmentManager().beginTransaction()
+                .addSharedElement(sharedElement, "add")
+                .add(R.id.fragment_container, editEventFragment)
                 // Add this transaction to the back stack
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public class DetailsTransition extends TransitionSet {
+        public DetailsTransition() {
+            setOrdering(ORDERING_TOGETHER);
+            addTransition(new ChangeBounds()).
+                    addTransition(new ChangeTransform()).
+                    addTransition(new ChangeImageTransform());
+        }
     }
 }

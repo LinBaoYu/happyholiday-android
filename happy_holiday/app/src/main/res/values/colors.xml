@@ -2,10 +2,10 @@
 <resources>
     <color name="colorPrimary">#A4E7DF</color>
     <color name="colorPrimaryDark">#5abcb0</color>
-    <color name="colorAccent">#FFA500</color>
+    <color name="colorAccent">#FF805C</color>
 
     <color name="windowBackground">#F5F5F5F5</color>
-    <color name="orange">#FFA500</color>
+    <color name="orange">#FF805C</color>
     <color name="text_dark">#DE000000</color>
     <color name="chat_bg">#ffffe0</color>
 

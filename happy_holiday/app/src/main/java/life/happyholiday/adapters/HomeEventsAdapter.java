@@ -1,6 +1,7 @@
 package life.happyholiday.adapters;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,9 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
     class EventViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.view_margin_top)
         View viewMarginTop;
+
+        @BindView(R.id.card_view)
+        View viewCard;
         @BindView(R.id.event_title)
         TextView textEventTitle;
         @BindView(R.id.event_attenders_count)
@@ -81,14 +85,16 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
             super(view);
             ButterKnife.bind(this, view);
 
-            view.setOnClickListener(new View.OnClickListener() {
+//            ViewCompat.setTransitionName(view, "" + getAdapterPosition());
+
+            viewCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mClickListener.onItemClick(getAdapterPosition(), view);
                 }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            viewCard.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     mClickListener.onItemLongClick(getAdapterPosition(), view);

@@ -1,5 +1,6 @@
 package life.happyholiday.fragments;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -16,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.adapters.EventActivitiesAdapter;
@@ -99,14 +100,28 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         });
         layoutEmptyState.setVisibility(results.size() == 0 ? View.VISIBLE : View.GONE);
 
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(btnJoin, "alpha", 0, 1);
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeIn.setDuration(700);
+        fadeIn.start();
+
         return view;
     }
 
+    @Override
+    public void onStop() {
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btnJoin, "alpha", 1, 0);
+        fadeOut.setDuration(1000);
+        fadeOut.start();
+
+        super.onStop();
+    }
+
     /*
-     * It is good practice to null the reference from the view to the adapter when it is no longer needed.
-     * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
-     * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
-     */
+         * It is good practice to null the reference from the view to the adapter when it is no longer needed.
+         * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
+         * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
+         */
     @Override
     public void onDestroy() {
         super.onDestroy();

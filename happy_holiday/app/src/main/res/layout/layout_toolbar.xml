@@ -27,6 +27,7 @@
         android:layout_toEndOf="@+id/btn_back"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_title"
+        android:transitionName="title"
         tools:text="Header"
         />
 
@@ -38,6 +39,7 @@
         android:src="@drawable/ic_add_white_36dp"
         android:scaleType="center"
         android:visibility="gone"
+        android:transitionName="add"
         android:contentDescription="@null"
         />
 

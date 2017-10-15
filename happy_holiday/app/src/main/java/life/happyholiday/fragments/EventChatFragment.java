@@ -16,6 +16,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.Sort;
 import life.happyholiday.R;
 import life.happyholiday.models.Author;
 import life.happyholiday.models.EventModel;
@@ -74,7 +75,7 @@ public class EventChatFragment extends Fragment{
 
         // ********** Second param is imageLoader, null make avatar invisible
         mAdapter = new MessagesListAdapter<>("0", null);
-        mAdapter.addToEnd(mEvent.getMessages(), false);
+        mAdapter.addToEnd(mEvent.getMessages().sort("createdAt", Sort.DESCENDING), false);
         mMessagesList.setAdapter(mAdapter);
 
         mInputView.setInputListener(new MessageInput.InputListener() {

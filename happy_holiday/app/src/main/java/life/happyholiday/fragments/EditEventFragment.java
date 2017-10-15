@@ -1,10 +1,12 @@
 package life.happyholiday.fragments;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -139,7 +141,22 @@ public class EditEventFragment extends Fragment {
     @OnClick(R.id.layout_start_date)
     void showDatePickerStart() {
         SoftKeyboardHelper.hideSoftKeyboard(getActivity());
+//        datePickerStart.setVisibility(View.VISIBLE);
+
+        // get the center for the clipping circle
+        int cx = (int) (datePickerStart.getWidth() * 0.36f);
+        int cy = datePickerStart.getHeight() / 2;
+
+        // get the final radius for the clipping circle
+        float finalRadius = (float) Math.hypot(cx, cy) * 1.2f;
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(datePickerStart, cx, cy, 20, finalRadius);
+
+        // make the view visible and start the animation
         datePickerStart.setVisibility(View.VISIBLE);
+        anim.start();
     }
 
     @OnClick(R.id.btn_set_1)

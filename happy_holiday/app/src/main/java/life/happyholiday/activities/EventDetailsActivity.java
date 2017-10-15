@@ -1,5 +1,6 @@
 package life.happyholiday.activities;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -95,7 +96,7 @@ public class EventDetailsActivity extends BaseActivity {
 
     @OnClick(R.id.btn_edit)
     void editTapped() {
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mEvent == null ? EditEventFragment.newInstance() : EditEventFragment.newInstance(mEvent.getId()))
                 // Add this transaction to the back stack
                 .addToBackStack(null)
@@ -104,6 +105,6 @@ public class EventDetailsActivity extends BaseActivity {
 
     @OnClick(R.id.btn_back)
     void backPressed() {
-        finish();
+        onBackPressed();
     }
 }

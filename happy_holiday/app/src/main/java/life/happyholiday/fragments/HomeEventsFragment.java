@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,12 +106,15 @@ public class HomeEventsFragment extends Fragment {
                 Bundle b = new Bundle();
                 b.putInt("EVENT_ID", adapter.getItem(position).getId());
                 intent.putExtras(b);
-                startActivity(intent);
+                Pair<View, String> p1 = Pair.create(v.findViewById(R.id.card_view), "root");
+                Pair<View, String> p2 = Pair.create(v.findViewById(R.id.event_title), "title");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1, p2);
+                startActivity(intent, options.toBundle());
             }
 
             @Override
-            public void onItemLongClick(final int position, View v) {
-                BubbleActions.on(v)
+            public void onItemLongClick(final int position, final View v) {
+                BubbleActions.on(v.findViewById(R.id.card_view))
                         .addAction("Join", R.drawable.tint_accent_ic_favorite_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
@@ -119,7 +124,7 @@ public class HomeEventsFragment extends Fragment {
                         .addAction("Edit", R.drawable.tint_accent_ic_mode_edit_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
-                                mListener.showEditEventDialog(adapter.getItem(position));
+                                mListener.showEditEventDialog(v, adapter.getItem(position));
                             }
                         })
                         .addAction("Delete", R.drawable.tint_accent_ic_highlight_off_black_24dp, new Callback() {
@@ -163,12 +168,12 @@ public class HomeEventsFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_add)
-    void addEvent() {
-        mListener.showEditEventDialog(null);
+    void addEvent(View view) {
+        mListener.showEditEventDialog(view, null);
     }
 
     // Container Activity must implement this interface
     public interface FragmentListener {
-        void showEditEventDialog(EventModel event);
+        void showEditEventDialog(View sharedElement, EventModel event);
     }
 }

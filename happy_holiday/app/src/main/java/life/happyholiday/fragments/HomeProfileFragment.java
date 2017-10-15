@@ -65,6 +65,8 @@ public class HomeProfileFragment extends Fragment {
 
     @OnClick(R.id.btn_logout)
     public void logout() {
-        startActivity(new Intent(getContext(), LoginActivity.class));
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
