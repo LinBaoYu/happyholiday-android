@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
+        final View view = inflater.inflate(R.layout.fragment_event_activities, container, false);
         ButterKnife.bind(this, view);
 
 //        btnJoin.setBackgroundColor(ColorConfigHelper.getDarkPrimaryColor(getContext()));
@@ -100,28 +101,41 @@ public class EventActivitiesFragment extends Fragment implements EventActivities
         });
         layoutEmptyState.setVisibility(results.size() == 0 ? View.VISIBLE : View.GONE);
 
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(btnJoin, "alpha", 0, 1);
-        fadeIn.setInterpolator(new AccelerateInterpolator());
-        fadeIn.setDuration(700);
-        fadeIn.start();
+        Transition sharedElementEnterTransition = getActivity().getWindow().getSharedElementEnterTransition();
+        sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0, 1);
+                fadeIn.setInterpolator(new AccelerateInterpolator());
+                fadeIn.setDuration(600);
+                fadeIn.start();
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+            }
+        });
 
         return view;
     }
 
-    @Override
-    public void onStop() {
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btnJoin, "alpha", 1, 0);
-        fadeOut.setDuration(1000);
-        fadeOut.start();
-
-        super.onStop();
-    }
-
     /*
-         * It is good practice to null the reference from the view to the adapter when it is no longer needed.
-         * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
-         * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
-         */
+     * It is good practice to null the reference from the view to the adapter when it is no longer needed.
+     * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
+     * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
