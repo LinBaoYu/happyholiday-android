@@ -85,7 +85,7 @@ public class EventChatFragment extends Fragment{
                 String id = new Random().nextInt(2) + "";
                 checkAndCreateAuthor(id);
                 Author author = realm.where(Author.class).equalTo("id", id).findFirst();
-                Message message = new Message(input.toString(), author, new Date());
+                Message message = new Message(input.toString().trim(), author, new Date());
                 addMessage(message);
                 mAdapter.addToStart(message, true);
                 return true;
