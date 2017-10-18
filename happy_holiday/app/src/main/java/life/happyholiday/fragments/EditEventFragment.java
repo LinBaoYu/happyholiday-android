@@ -22,7 +22,6 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
-import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.utils.StringHelper;
 
@@ -196,15 +195,13 @@ public class EditEventFragment extends Fragment {
 
     @OnClick(R.id.btn_save)
     void saveBtnTapped() {
-        // Use an unmanaged object to edit values outside Realm transaction
-        final EventModel event = new EventModel(editTitle.getText().toString(),
-                mEvent.getAttendingCount(),
-                StringHelper.getIntFromString(textNumber.getText().toString()),
-                mCalendarStart.getTime(),
-                mCalendarEnd.getTime());
-        event.setId(mEvent.getId());
+        realm.beginTransaction();
+        mEvent.setTitle(editTitle.getText().toString());
+        mEvent.setVacancy(StringHelper.getIntFromString(textNumber.getText().toString()));
+        mEvent.setStartDate(mCalendarStart.getTime());
+        mEvent.setEndDate(mCalendarEnd.getTime());
+        realm.commitTransaction();
 
-        RealmDataHelper.addOrUpdateEvent(realm, event);
         getActivity().onBackPressed();
     }
 

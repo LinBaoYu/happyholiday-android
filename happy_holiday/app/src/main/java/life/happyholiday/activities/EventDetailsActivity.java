@@ -56,7 +56,7 @@ public class EventDetailsActivity extends BaseActivity {
                     textToolbarTitle.setText(mEvent.getTitle());
                 }
             });
-        } catch (NullPointerException ignored) {
+        } catch (Exception e) {
             finish(); // Exit if null
         }
 
@@ -91,6 +91,9 @@ public class EventDetailsActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mEvent != null) {
+            mEvent.removeAllChangeListeners();
+        }
         realm.close();
     }
 
