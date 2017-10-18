@@ -48,7 +48,6 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
         EventModel event = getItem(position);
         EventViewHolder eventViewHolder = (EventViewHolder) holder;
 
-        eventViewHolder.viewMarginTop.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
         eventViewHolder.textEventTitle.setText(event.getTitle());
         eventViewHolder.textEventAttendersCount.setText(mContext.getString(R.string.num_of_num_people,event.getAttendingCount(), event.getVacancy()));
         eventViewHolder.textEventDate.setText(StringHelper.getDateString(event.getStartDate()));
@@ -67,9 +66,6 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
     }
 
     class EventViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.view_margin_top)
-        View viewMarginTop;
-
         @BindView(R.id.card_view)
         View viewCard;
         @BindView(R.id.event_title)

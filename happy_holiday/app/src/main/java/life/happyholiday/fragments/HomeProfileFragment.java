@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.SyncUser;
 import life.happyholiday.R;
 import life.happyholiday.activities.LoginActivity;
 import life.happyholiday.utils.ColorConfigHelper;
@@ -65,6 +66,11 @@ public class HomeProfileFragment extends Fragment {
 
     @OnClick(R.id.btn_logout)
     public void logout() {
+        SyncUser user = SyncUser.currentUser();
+        if (user != null) {
+            user.logout();
+        }
+
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

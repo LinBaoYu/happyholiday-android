@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.models.RealmDataHelper;
 import life.happyholiday.utils.SoftKeyboardHelper;
 import life.happyholiday.utils.StringHelper;
 
@@ -202,6 +203,7 @@ public class EditEventFragment extends Fragment {
         mEvent.setEndDate(mCalendarEnd.getTime());
         realm.commitTransaction();
 
+        RealmDataHelper.addOrUpdateEvent(realm, mEvent);
         getActivity().onBackPressed();
     }
 
