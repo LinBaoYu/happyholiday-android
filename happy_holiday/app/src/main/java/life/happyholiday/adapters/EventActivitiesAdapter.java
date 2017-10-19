@@ -14,6 +14,8 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.ActivityModel;
+import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.StringHelper;
 
 /**
  * Adapter for Activity list in event detail.
@@ -52,7 +54,7 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
             final ActivityModel activity = getItem(position);
             final ActivityViewHolder activityViewHolder = (ActivityViewHolder) holder;
 
-            activityViewHolder.textActivityTime.setText("10:00 am");
+            activityViewHolder.textActivityTime.setText(StringHelper.getDateHourMinuteString(activity.getStartDate()));
             activityViewHolder.textActivityTitle.setText(activity.getTitle());
             activityViewHolder.textUpVote.setText(String.format(Locale.getDefault(), "%d", activity.getVoteUp()));
             activityViewHolder.textDownVote.setText(String.format(Locale.getDefault(), "%d", activity.getVoteDown()));
@@ -126,6 +128,13 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
         ActivityViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.addOrEditActivity(getData().get(getAdapterPosition()));
+                }
+            });
         }
     }
 
@@ -135,7 +144,7 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onNewActivityClicked();
+                    mListener.addOrEditActivity(null);
                 }
             });
         }
@@ -144,7 +153,7 @@ public class EventActivitiesAdapter extends RealmRecyclerViewAdapter<ActivityMod
 
     public interface EventActivitiesListener {
 
-        void onNewActivityClicked();
+        void addOrEditActivity(ActivityModel act);
 
         void deleteActivity(ActivityModel activityModel);
 

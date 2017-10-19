@@ -2,16 +2,24 @@ package life.happyholiday.models;
 
 import com.stfalcon.chatkit.commons.models.IUser;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Author used for stfalcon lib
  *
  * Created by liuyang on 9/30/2017.
  */
 
-public class Author implements IUser {
+public class Author extends RealmObject implements IUser {
+    @PrimaryKey
     private String id;
+
     private String name;
     private String avatar;
+
+    public Author() {
+    }
 
     public Author(String id, String name, String avatar) {
         this.id = id;

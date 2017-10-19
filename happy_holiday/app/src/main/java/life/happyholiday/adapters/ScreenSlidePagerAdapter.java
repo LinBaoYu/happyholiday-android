@@ -16,16 +16,19 @@ import life.happyholiday.fragments.EventChatFragment;
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     private static final int NUM_PAGES = 2;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm) {
+    private int eventId;
+
+    public ScreenSlidePagerAdapter(FragmentManager fm, int eventId) {
         super(fm);
+        this.eventId = eventId;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return EventActivitiesFragment.newInstance();
+            return EventActivitiesFragment.newInstance(eventId);
         } else {
-            return EventChatFragment.newInstance();
+            return EventChatFragment.newInstance(eventId);
         }
     }
 

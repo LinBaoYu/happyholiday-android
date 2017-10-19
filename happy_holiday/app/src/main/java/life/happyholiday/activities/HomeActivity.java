@@ -1,10 +1,16 @@
 package life.happyholiday.activities;
 
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionSet;
 import android.view.View;
-import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -12,13 +18,15 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.happyholiday.R;
+import life.happyholiday.fragments.EditEventFragment;
 import life.happyholiday.fragments.HomeEventsFragment;
 import life.happyholiday.fragments.HomeFriendsFragment;
 import life.happyholiday.fragments.HomeMapFragment;
 import life.happyholiday.fragments.HomeProfileFragment;
+import life.happyholiday.models.EventModel;
 import life.happyholiday.utils.ColorConfigHelper;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeEventsFragment.FragmentListener {
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -61,7 +69,8 @@ public class HomeActivity extends BaseActivity {
         ahBottomNavigation.addItem(item4);
 
         // Change colors
-        ahBottomNavigation.setAccentColor(ColorConfigHelper.getDarkPrimaryColor(this));
+//        ahBottomNavigation.setAccentColor(ColorConfigHelper.getDarkPrimaryColor(this));
+        ahBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         ahBottomNavigation.setInactiveColor(Color.GRAY);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
@@ -88,5 +97,30 @@ public class HomeActivity extends BaseActivity {
 
         // Set current item programmatically
         ahBottomNavigation.setCurrentItem(1);
+    }
+
+    @Override
+    public void showEditEventDialog(View sharedElement, EventModel event) {
+        EditEventFragment editEventFragment = event == null ? EditEventFragment.newInstance() : EditEventFragment.newInstance(event.getId());
+        editEventFragment.setSharedElementEnterTransition(new DetailsTransition());
+        editEventFragment.setEnterTransition(new Slide());
+        editEventFragment.setExitTransition(new Fade());
+        editEventFragment.setSharedElementReturnTransition(new DetailsTransition());
+
+        getFragmentManager().beginTransaction()
+                .addSharedElement(sharedElement, "add")
+                .add(R.id.fragment_container, editEventFragment)
+                // Add this transaction to the back stack
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public class DetailsTransition extends TransitionSet {
+        public DetailsTransition() {
+            setOrdering(ORDERING_TOGETHER);
+            addTransition(new ChangeBounds()).
+                    addTransition(new ChangeTransform()).
+                    addTransition(new ChangeImageTransform());
+        }
     }
 }

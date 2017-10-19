@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/windowBackground"
+    android:transitionName="root"
     tools:context="life.happyholiday.activities.HomeActivity"
     >
 
@@ -19,5 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
+        android:transitionName="pager"
+        />
+
+    <!-- elevation helps to show fragment above bottom nav -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
         />
 </RelativeLayout>

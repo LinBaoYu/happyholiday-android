@@ -1,11 +1,15 @@
 package life.happyholiday.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 import life.happyholiday.R;
 import life.happyholiday.activities.EventDetailsActivity;
 import life.happyholiday.adapters.HomeEventsAdapter;
@@ -39,8 +45,12 @@ public class HomeEventsFragment extends Fragment {
     @BindView(R.id.list_event)
     RecyclerView recyclerView;
 
+    @BindView(R.id.layout_empty_state)
+    View layoutEmptyState;
+
     private Realm realm;
     private HomeEventsAdapter adapter;
+    private FragmentListener mListener;
 
     public HomeEventsFragment() {
         // Required empty public constructor
@@ -63,7 +73,7 @@ public class HomeEventsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_events, container, false);
         ButterKnife.bind(this, view);
 
-        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+//        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         // Initialize Realm database
         realm = Realm.getDefaultInstance();
@@ -77,7 +87,16 @@ public class HomeEventsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new HomeEventsAdapter(realm.where(EventModel.class).findAll());
+        RealmResults<EventModel> results = realm.where(EventModel.class).findAll().sort("startDate");
+        results.addChangeListener(new RealmChangeListener<RealmResults<EventModel>>() {
+            @Override
+            public void onChange(@NonNull RealmResults<EventModel> eventModels) {
+                layoutEmptyState.setVisibility(eventModels.size() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
+        layoutEmptyState.setVisibility(results.size() == 0 ? View.VISIBLE : View.GONE);
+        adapter = new HomeEventsAdapter(results);
+
 
         // Add bubble actions to item in the list
         adapter.setOnItemClickListener(new HomeEventsAdapter.ItemClickListener() {
@@ -87,25 +106,28 @@ public class HomeEventsFragment extends Fragment {
                 Bundle b = new Bundle();
                 b.putInt("EVENT_ID", adapter.getItem(position).getId());
                 intent.putExtras(b);
-                startActivity(intent);
+                Pair<View, String> p1 = Pair.create(v.findViewById(R.id.card_view), "root");
+                Pair<View, String> p2 = Pair.create(v.findViewById(R.id.event_title), "title");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1, p2);
+                startActivity(intent, options.toBundle());
             }
 
             @Override
-            public void onItemLongClick(final int position, View v) {
-                BubbleActions.on(v)
-                        .addAction("Join", R.drawable.ic_favorite_black_24dp, new Callback() {
+            public void onItemLongClick(final int position, final View v) {
+                BubbleActions.on(v.findViewById(R.id.card_view))
+                        .addAction("Join", R.drawable.tint_accent_ic_favorite_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
                                 Toast.makeText(getContext(), "Join the event!", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .addAction("Edit", R.drawable.ic_mode_edit_black_24dp, new Callback() {
+                        .addAction("Edit", R.drawable.tint_accent_ic_mode_edit_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
-                                Toast.makeText(getContext(), "Edit the event!", Toast.LENGTH_SHORT).show();
+                                mListener.showEditEventDialog(v, adapter.getItem(position));
                             }
                         })
-                        .addAction("Delete", R.drawable.ic_highlight_off_black_24dp, new Callback() {
+                        .addAction("Delete", R.drawable.tint_accent_ic_highlight_off_black_24dp, new Callback() {
                             @Override
                             public void doAction() {
                                 RealmDataHelper.deleteEvent(realm, adapter.getItem(position));
@@ -131,8 +153,27 @@ public class HomeEventsFragment extends Fragment {
         realm.close();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mListener = (FragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
     @OnClick(R.id.btn_add)
-    void addEvent() {
-        RealmDataHelper.addEvent(realm);
+    void addEvent(View view) {
+        mListener.showEditEventDialog(view, null);
+    }
+
+    // Container Activity must implement this interface
+    public interface FragmentListener {
+        void showEditEventDialog(View sharedElement, EventModel event);
     }
 }

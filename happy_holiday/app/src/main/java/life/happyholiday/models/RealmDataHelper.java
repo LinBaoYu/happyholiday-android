@@ -2,7 +2,7 @@ package life.happyholiday.models;
 
 import android.support.annotation.NonNull;
 
-import java.util.Date;
+import java.util.Random;
 
 import io.realm.Realm;
 
@@ -14,15 +14,20 @@ import io.realm.Realm;
 
 public class RealmDataHelper {
 
-    // Home event
-    public static void addEvent(Realm realm) {
+    ///////////////////////////////////////////////////////////////////////////
+    // Home events
+    ///////////////////////////////////////////////////////////////////////////
+    public static void addOrUpdateEvent(Realm realm, final EventModel event) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                EventModel event = new EventModel("Singapore", 1, 5, new Date(), new Date());
+                // temp id
+                if (event.getId() == -1) event.setId((int) System.currentTimeMillis());
 
-                event.setId((int) System.currentTimeMillis());
-                realm.insert(event);
+                // random a attending count for now
+                event.setAttendingCount(new Random().nextInt(event.getVacancy()));
+
+                realm.copyToRealmOrUpdate(event);
             }
         });
     }
@@ -36,19 +41,26 @@ public class RealmDataHelper {
         });
     }
 
+    ///////////////////////////////////////////////////////////////////////////
     // Event - Activities
-    public static void addActivity(Realm realm) {
+    ///////////////////////////////////////////////////////////////////////////
+    public static void addOrUpdateActivity(Realm realm, final ActivityModel act, final EventModel eventModel) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                ActivityModel act = new ActivityModel("Singapore", "Blah blah..", "@Mall", new Date(), new Date(), 0, 0);
+                // set sequence for new activity
+                if (act.getSequence() < 0) {
+                    Number maxSequenceNumber = eventModel.getActivities().max("sequence");
+                    act.setSequence(maxSequenceNumber == null ? 0 : maxSequenceNumber.intValue() + 1);
+                }
 
-                act.setId((int) System.currentTimeMillis());
-
-                Number maxSequenceNumber = realm.where(ActivityModel.class).max("sequence");
-                act.setSequence(maxSequenceNumber == null ? 0 : maxSequenceNumber.intValue() + 1);
-
-                realm.insert(act);
+                // temp id
+                if (act.getId() == -1) { // new Activity
+                    act.setId((int) System.currentTimeMillis());
+                    eventModel.getActivities().add(act);
+                } else {
+                    realm.copyToRealmOrUpdate(act);
+                }
             }
         });
     }
@@ -87,6 +99,30 @@ public class RealmDataHelper {
                 int tempSeq = activity1.getSequence();
                 activity1.setSequence(activity2.getSequence());
                 activity2.setSequence(tempSeq);
+            }
+        });
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Chat
+    ///////////////////////////////////////////////////////////////////////////
+    public static void checkAndCreateAuthor(Realm realm, final String id) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                final Author author = realm.where(Author.class).equalTo("id", id).findFirst();
+                if (author == null) {
+                    realm.copyToRealmOrUpdate(new Author(id, "name" + id, ""));
+                }
+            }
+        });
+    }
+
+    public static void addMessage(Realm realm, final EventModel event, final Message message) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                event.getMessages().add(message);
             }
         });
     }

@@ -39,6 +39,8 @@ public class ActivityModel extends RealmObject {
         this.endDate = endDate;
         this.voteUp = voteUp;
         this.voteDown = voteDown;
+
+        this.sequence = -1;
     }
 
     public int getId() {

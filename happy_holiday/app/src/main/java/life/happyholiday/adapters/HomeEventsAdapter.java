@@ -1,5 +1,7 @@
 package life.happyholiday.adapters;
 
+import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 import life.happyholiday.R;
 import life.happyholiday.models.EventModel;
+import life.happyholiday.utils.StringHelper;
 
 /**
  * Adapter for Event list in home screen.
@@ -24,6 +27,7 @@ import life.happyholiday.models.EventModel;
 
 public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, RecyclerView.ViewHolder> {
     private ItemClickListener mClickListener;
+    private Context mContext;
 
     public HomeEventsAdapter(OrderedRealmCollection<EventModel> data) {
         super(data, true);
@@ -32,7 +36,8 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.layout_event_card, parent, false);
 
         return new EventViewHolder(view);
@@ -43,10 +48,9 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
         EventModel event = getItem(position);
         EventViewHolder eventViewHolder = (EventViewHolder) holder;
 
-        eventViewHolder.viewMarginTop.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
         eventViewHolder.textEventTitle.setText(event.getTitle());
-        eventViewHolder.textEventAttendersCount.setText(event.getAttendingCount() + "/" + event.getVacancy() + " persons");
-        eventViewHolder.textEventDate.setText("Sep 18, 2017");
+        eventViewHolder.textEventAttendersCount.setText(mContext.getString(R.string.num_of_num_people,event.getAttendingCount(), event.getVacancy()));
+        eventViewHolder.textEventDate.setText(StringHelper.getDateString(event.getStartDate()));
         eventViewHolder.textEventDuration.setText("1d");
     }
 
@@ -62,8 +66,8 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
     }
 
     class EventViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.view_margin_top)
-        View viewMarginTop;
+        @BindView(R.id.card_view)
+        View viewCard;
         @BindView(R.id.event_title)
         TextView textEventTitle;
         @BindView(R.id.event_attenders_count)
@@ -77,14 +81,16 @@ public class HomeEventsAdapter extends RealmRecyclerViewAdapter<EventModel, Recy
             super(view);
             ButterKnife.bind(this, view);
 
-            view.setOnClickListener(new View.OnClickListener() {
+//            ViewCompat.setTransitionName(view, "" + getAdapterPosition());
+
+            viewCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mClickListener.onItemClick(getAdapterPosition(), view);
                 }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            viewCard.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     mClickListener.onItemLongClick(getAdapterPosition(), view);

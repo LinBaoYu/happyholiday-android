@@ -11,6 +11,8 @@
     <string name="menu_events">Events</string>
     <string name="menu_friends">Friends</string>
     <string name="menu_profile">Profile</string>
+    <string name="num_of_num_people">%1$d/%2$d persons</string>
+    <string name="there_is_no_event_yet">There is nothing here.\nLet\'s add one!</string>
 
     <!-- Profile -->
     <string name="check_for_update">Check for Update in Dropbox</string>
@@ -21,6 +23,20 @@
     <string name="not_sure">Not Sure</string>
     <string name="hint_enter_a_message">Enter something ;)</string>
     <string name="discuss_here">Discuss here!</string>
+    <string name="add_new_event">Add New Event</string>
+    <string name="edit_event">Edit Event</string>
+    <string name="title">Title</string>
+    <string name="expecting">Expecting</string>
+    <string name="people">people</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="save">Save</string>
+    <string name="add_new_activity">Add New Activity</string>
+    <string name="edit_activity">Edit Activity</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="edit">Edit</string>
+    <string name="set">Set</string>
 
     <!-- Util -->
     <string name="back">Back</string>

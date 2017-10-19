@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.SyncUser;
 import life.happyholiday.R;
 import life.happyholiday.activities.LoginActivity;
 import life.happyholiday.utils.ColorConfigHelper;
@@ -49,8 +50,8 @@ public class HomeProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_profile, container, false);
         ButterKnife.bind(this, view);
 
-        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
-        view.findViewById(R.id.layout_avatar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+//        view.findViewById(R.id.toolbar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
+//        view.findViewById(R.id.layout_avatar).setBackgroundColor(ColorConfigHelper.getPrimaryColor(getContext()));
 
         textToolbarTitle.setText(R.string.menu_profile);
 
@@ -65,6 +66,13 @@ public class HomeProfileFragment extends Fragment {
 
     @OnClick(R.id.btn_logout)
     public void logout() {
-        startActivity(new Intent(getContext(), LoginActivity.class));
+        SyncUser user = SyncUser.currentUser();
+        if (user != null) {
+            user.logout();
+        }
+
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="life.happyholiday">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -20,15 +20,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.HomeActivity"/>
+        <activity android:name=".activities.HomeActivity" />
 
-        <activity android:name=".activities.EventDetailsActivity"/>
+        <activity
+            android:name=".activities.EventDetailsActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
 
-        <activity android:name=".activities.DebugActivity"/>
+        <activity android:name=".activities.DebugActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_map_api_key"/>
+            android:value="@string/google_map_api_key" />
     </application>
 
 </manifest>
