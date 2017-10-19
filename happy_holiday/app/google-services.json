@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "466792304789",
+    "project_id": "happyholidaydebug"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466792304789:android:f69c35bea7b8cbd2",
+        "android_client_info": {
+          "package_name": "life.happyholiday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466792304789-6gu5bvcevk2skdg1e4r5hg85espl6hqd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "life.happyholiday",
+            "certificate_hash": "d3533b4edafa3bf48c9b7b37fc11519dfdaf11b4"
+          }
+        },
+        {
+          "client_id": "466792304789-pb73c426ttkju77t014td68pl1ghd97h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRAI0zrKAJjECppntF364G68rYV5P7P98"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
